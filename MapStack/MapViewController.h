@@ -1,5 +1,5 @@
 //
-//  ViewController.h
+//  MapViewController.h
 //  MapStack
 //
 //  Created by Mike Leveton on 2/23/16.
@@ -8,8 +8,6 @@
 
 #import <UIKit/UIKit.h>
 
-@interface ViewController : UIViewController
-
+@interface MapViewController : UIViewController
 
 @end
-

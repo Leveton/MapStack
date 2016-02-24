@@ -7,9 +7,10 @@
 //
 
 #import "AppDelegate.h"
+#import "MapViewController.h"
 
 @interface AppDelegate ()
-
+@property (nonatomic, strong, nullable) MapViewController *mapViewController;
 @end
 
 @implementation AppDelegate
@@ -17,6 +18,10 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     // Override point for customization after application launch.
+    self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
+    [[self window] setRootViewController:[self mapViewController]];
+    [[self window] makeKeyAndVisible];
+    
     return YES;
 }
 
@@ -40,6 +45,16 @@
 
 - (void)applicationWillTerminate:(UIApplication *)application {
     // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
+}
+
+#pragma mark - getters
+
+- (UIViewController *)mapViewController{
+    if (!_mapViewController){
+        _mapViewController = [[MapViewController alloc] init];
+        [[_mapViewController view] setBackgroundColor:[UIColor redColor]];
+    }
+    return _mapViewController;
 }
 
 @end
