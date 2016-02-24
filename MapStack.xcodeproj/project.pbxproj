@@ -390,6 +390,7 @@
 				1CEA95FE1C7D5D7E0053CD4F /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		1CEA95FF1C7D5D7E0053CD4F /* Build configuration list for PBXNativeTarget "MapStackTests" */ = {
 			isa = XCConfigurationList;
@@ -398,6 +399,7 @@
 				1CEA96011C7D5D7E0053CD4F /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
