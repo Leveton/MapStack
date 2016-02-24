@@ -9,7 +9,7 @@
 #import "MapViewController.h"
 
 #define kLocStringHelloWorld         NSLocalizedString(@"Hello World", @"Hello World")
-
+#define kLabelSide                   (200.0f)
 @interface MapViewController ()
 @property (nonatomic, strong, nullable) UILabel *label;
 @end
@@ -24,7 +24,12 @@
 - (void)viewWillLayoutSubviews{
     [super viewWillLayoutSubviews];
     
-    [[self label] setFrame:[[self view] frame]];
+    CGRect labelFrame      = [[self label] frame];
+    labelFrame.size.width  = kLabelSide;
+    labelFrame.size.height = kLabelSide;
+    labelFrame.origin.x = (CGRectGetWidth([[self view] frame]) - kLabelSide)/2;
+    labelFrame.origin.y = (CGRectGetHeight([[self view] frame]) - kLabelSide)/2;
+    [[self label] setFrame:labelFrame];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -39,6 +44,8 @@
         _label = [[UILabel alloc] initWithFrame:CGRectZero];
         [_label setText:kLocStringHelloWorld];
         [_label setTextAlignment:NSTextAlignmentCenter];
+        [[_label layer] setBorderColor:_label.textColor.CGColor];
+        [[_label layer] setBorderWidth:1.0f];
         [[self view] addSubview:_label];
     }
     return _label;

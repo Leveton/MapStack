@@ -8,38 +8,38 @@
 
 #import <UIKit/UIKit.h>
 #import "AppDelegate.h"
+#import "Car.h"
 
 struct vanillaStruct {
-    int anInteger;
+    int   anInteger;
     char *firstName;
 };
 
 int main(int argc, char * argv[]) {
     
+    /* this demo's reference vs value types using main() which the students are familiar with */
     struct vanillaStruct valueType0;
     valueType0.anInteger = 7;
     valueType0.firstName = "mike";
     
-    NSObject *objectType0 = [[NSObject alloc] init];
-    [objectType0 setAccessibilityLabel:@"I'm a string"];
+    Car *car0 = [[Car alloc] init];
+    [car0 setNumberOfDoors:2];
     
     struct vanillaStruct valueType1 = valueType0;
-    NSObject *objectType1           = objectType0;
+    Car *car1                       = car0;
     
     printf("first names: %s, %s \n", valueType0.firstName, valueType1.firstName);
     printf("anIntegers: %d, %d \n", valueType0.anInteger, valueType1.anInteger);
-    NSLog(@"accessibiltyLabels: %@ %@", objectType0.accessibilityLabel, objectType1.accessibilityLabel);
+    NSLog(@"car doors: %ld %ld", (long)car0.numberOfDoors, (long)car1.numberOfDoors);
     
     valueType0.firstName = "mary";
-    [objectType0 setAccessibilityLabel:@"I'm a different string"];
+    [car0 setNumberOfDoors:4];
     
     printf("first names again: %s, %s \n", valueType0.firstName, valueType1.firstName);
     printf("anIntegers again: %d, %d \n", valueType0.anInteger, valueType1.anInteger);
-    NSLog(@"accessibiltyLabels again: %@ %@", objectType0.accessibilityLabel, objectType1.accessibilityLabel);
+    NSLog(@"car doors again: %ld %ld", (long)car0.numberOfDoors, (long)car1.numberOfDoors);
     
-    
-    
-    //    @autoreleasepool {
-    //        return UIApplicationMain(argc, argv, nil, NSStringFromClass([AppDelegate class]));
-    //    }
+    @autoreleasepool {
+        return UIApplicationMain(argc, argv, nil, NSStringFromClass([AppDelegate class]));
+    }
 }
