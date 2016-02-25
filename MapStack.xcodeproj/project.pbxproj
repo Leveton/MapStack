@@ -10,6 +10,9 @@
 		1CA41A211C7E228F00B303B5 /* Car.m in Sources */ = {isa = PBXBuildFile; fileRef = 1CA41A201C7E228F00B303B5 /* Car.m */; };
 		1CA41A241C7E3E2900B303B5 /* Honda.m in Sources */ = {isa = PBXBuildFile; fileRef = 1CA41A231C7E3E2900B303B5 /* Honda.m */; };
 		1CA41A271C7E42D500B303B5 /* House.m in Sources */ = {isa = PBXBuildFile; fileRef = 1CA41A261C7E42D500B303B5 /* House.m */; };
+		1CD8573E1C7F826000D16303 /* LocationsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1CD8573D1C7F826000D16303 /* LocationsViewController.m */; };
+		1CD857411C7F827400D16303 /* FavoritesViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1CD857401C7F827400D16303 /* FavoritesViewController.m */; };
+		1CD857441C7F828400D16303 /* SettingsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1CD857431C7F828400D16303 /* SettingsViewController.m */; };
 		1CEA95DF1C7D5D7E0053CD4F /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 1CEA95DE1C7D5D7E0053CD4F /* main.m */; };
 		1CEA95E21C7D5D7E0053CD4F /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 1CEA95E11C7D5D7E0053CD4F /* AppDelegate.m */; };
 		1CEA95EA1C7D5D7E0053CD4F /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1CEA95E91C7D5D7E0053CD4F /* Assets.xcassets */; };
@@ -35,6 +38,12 @@
 		1CA41A231C7E3E2900B303B5 /* Honda.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Honda.m; sourceTree = "<group>"; };
 		1CA41A251C7E42D500B303B5 /* House.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = House.h; sourceTree = "<group>"; };
 		1CA41A261C7E42D500B303B5 /* House.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = House.m; sourceTree = "<group>"; };
+		1CD8573C1C7F826000D16303 /* LocationsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LocationsViewController.h; sourceTree = "<group>"; };
+		1CD8573D1C7F826000D16303 /* LocationsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LocationsViewController.m; sourceTree = "<group>"; };
+		1CD8573F1C7F827400D16303 /* FavoritesViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FavoritesViewController.h; sourceTree = "<group>"; };
+		1CD857401C7F827400D16303 /* FavoritesViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FavoritesViewController.m; sourceTree = "<group>"; };
+		1CD857421C7F828400D16303 /* SettingsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SettingsViewController.h; sourceTree = "<group>"; };
+		1CD857431C7F828400D16303 /* SettingsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SettingsViewController.m; sourceTree = "<group>"; };
 		1CEA95DA1C7D5D7E0053CD4F /* MapStack.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MapStack.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		1CEA95DE1C7D5D7E0053CD4F /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		1CEA95E01C7D5D7E0053CD4F /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
@@ -92,6 +101,12 @@
 				1CEA95E11C7D5D7E0053CD4F /* AppDelegate.m */,
 				1CEA96021C7D5DA60053CD4F /* MapViewController.h */,
 				1CEA96031C7D5DA60053CD4F /* MapViewController.m */,
+				1CD8573C1C7F826000D16303 /* LocationsViewController.h */,
+				1CD8573D1C7F826000D16303 /* LocationsViewController.m */,
+				1CD8573F1C7F827400D16303 /* FavoritesViewController.h */,
+				1CD857401C7F827400D16303 /* FavoritesViewController.m */,
+				1CD857421C7F828400D16303 /* SettingsViewController.h */,
+				1CD857431C7F828400D16303 /* SettingsViewController.m */,
 				1CA41A1F1C7E228F00B303B5 /* Car.h */,
 				1CA41A201C7E228F00B303B5 /* Car.m */,
 				1CA41A221C7E3E2900B303B5 /* Honda.h */,
@@ -225,9 +240,12 @@
 				1CA41A271C7E42D500B303B5 /* House.m in Sources */,
 				1CEA96041C7D5DA60053CD4F /* MapViewController.m in Sources */,
 				1CA41A241C7E3E2900B303B5 /* Honda.m in Sources */,
+				1CD857441C7F828400D16303 /* SettingsViewController.m in Sources */,
 				1CEA95E21C7D5D7E0053CD4F /* AppDelegate.m in Sources */,
 				1CA41A211C7E228F00B303B5 /* Car.m in Sources */,
 				1CEA95DF1C7D5D7E0053CD4F /* main.m in Sources */,
+				1CD857411C7F827400D16303 /* FavoritesViewController.m in Sources */,
+				1CD8573E1C7F826000D16303 /* LocationsViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

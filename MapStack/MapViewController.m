@@ -10,6 +10,7 @@
 
 #define kLocStringHelloWorld         NSLocalizedString(@"Hello World", @"Hello World")
 #define kLabelSide                   (200.0f)
+#define kTabbarHeight                 (49.0f)
 @interface MapViewController ()
 @property (nonatomic, strong, nullable) UILabel *label;
 @end
@@ -30,7 +31,7 @@
     
     /* Calculate the label's position of the view using Core Graphic helper methods */
     CGFloat xOffset        = (CGRectGetWidth([[self view] frame]) - kLabelSide)/2;
-    CGFloat yOffset        = (CGRectGetHeight([[self view] frame]) - kLabelSide)/2;
+    CGFloat yOffset        = ((CGRectGetHeight([[self view] frame]) - kTabbarHeight) - kLabelSide)/2;
     CGPoint labelOrigin    = CGPointMake(xOffset, yOffset);
     labelFrame.origin      = labelOrigin;
     

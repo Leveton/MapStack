@@ -8,9 +8,15 @@
 
 #import "AppDelegate.h"
 #import "MapViewController.h"
+#import "LocationsViewController.h"
+#import "FavoritesViewController.h"
+#import "SettingsViewController.h"
 
 @interface AppDelegate ()
-@property (nonatomic, strong, nullable) MapViewController *mapViewController;
+@property (nonatomic, strong, nullable) MapViewController       *mapViewController;
+@property (nonatomic, strong, nullable) LocationsViewController *locationsViewController;
+@property (nonatomic, strong, nullable) FavoritesViewController *favoritesViewController;
+@property (nonatomic, strong, nullable) SettingsViewController  *settingsViewController;
 @end
 
 @implementation AppDelegate
@@ -19,7 +25,12 @@
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     // Override point for customization after application launch.
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
-    [[self window] setRootViewController:[self mapViewController]];
+    
+    UITabBarController *controller = [[UITabBarController alloc]init];
+    NSArray *controllers = [NSArray arrayWithObjects:[self mapViewController], [self locationsViewController], [self favoritesViewController], [self settingsViewController], nil];
+    [controller setViewControllers:controllers];
+    
+    [[self window] setRootViewController:controller];
     [[self window] makeKeyAndVisible];
     
     return YES;
@@ -49,12 +60,44 @@
 
 #pragma mark - getters
 
-- (UIViewController *)mapViewController{
+- (MapViewController *)mapViewController{
     if (!_mapViewController){
         _mapViewController = [[MapViewController alloc] init];
         [[_mapViewController view] setBackgroundColor:[UIColor redColor]];
+        [[_mapViewController tabBarItem] setImage:[UIImage imageNamed:@"home"]];
+        [[_mapViewController tabBarItem] setTag:0];
     }
     return _mapViewController;
+}
+
+- (LocationsViewController *)locationsViewController{
+    if (!_locationsViewController){
+        _locationsViewController = [[LocationsViewController alloc] init];
+        [[_locationsViewController view] setBackgroundColor:[UIColor blueColor]];
+        [[_locationsViewController tabBarItem] setImage:[UIImage imageNamed:@"table"]];
+        [[_locationsViewController tabBarItem] setTag:1];
+    }
+    return _locationsViewController;
+}
+
+- (FavoritesViewController *)favoritesViewController{
+    if (!_favoritesViewController){
+        _favoritesViewController = [[FavoritesViewController alloc] init];
+        [[_favoritesViewController view] setBackgroundColor:[UIColor greenColor]];
+        [[_favoritesViewController tabBarItem] setImage:[UIImage imageNamed:@"favorites"]];
+        [[_favoritesViewController tabBarItem] setTag:2];
+    }
+    return _favoritesViewController;
+}
+
+- (SettingsViewController *)settingsViewController{
+    if (!_settingsViewController){
+        _settingsViewController = [[SettingsViewController alloc] init];
+        [[_settingsViewController view] setBackgroundColor:[UIColor yellowColor]];
+        [[_settingsViewController tabBarItem] setImage:[UIImage imageNamed:@"settings"]];
+        [[_settingsViewController tabBarItem] setTag:3];
+    }
+    return _settingsViewController;
 }
 
 @end
