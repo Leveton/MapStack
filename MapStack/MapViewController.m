@@ -24,11 +24,17 @@
 - (void)viewWillLayoutSubviews{
     [super viewWillLayoutSubviews];
     
+    /* use 2 floats defined at the top to set the label's size (it's width and height) */
     CGRect labelFrame      = [[self label] frame];
-    labelFrame.size.width  = kLabelSide;
-    labelFrame.size.height = kLabelSide;
-    labelFrame.origin.x = (CGRectGetWidth([[self view] frame]) - kLabelSide)/2;
-    labelFrame.origin.y = (CGRectGetHeight([[self view] frame]) - kLabelSide)/2;
+    labelFrame.size        = CGSizeMake(kLabelSide, kLabelSide);
+    
+    /* Calculate the label's position of the view using Core Graphic helper methods */
+    CGFloat xOffset        = (CGRectGetWidth([[self view] frame]) - kLabelSide)/2;
+    CGFloat yOffset        = (CGRectGetHeight([[self view] frame]) - kLabelSide)/2;
+    CGPoint labelOrigin    = CGPointMake(xOffset, yOffset);
+    labelFrame.origin      = labelOrigin;
+    
+    /* set the label's frame via message passing */
     [[self label] setFrame:labelFrame];
 }
 

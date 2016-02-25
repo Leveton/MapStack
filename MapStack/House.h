@@ -15,4 +15,5 @@
 
 - (void)setNumberOfDoors:(NSInteger)numberOfDoors;
 
++ (NSInteger)someCompexOperationUniqueToHouse;
 @end

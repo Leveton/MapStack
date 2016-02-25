@@ -16,6 +16,18 @@
 
 @implementation House
 
+/* overriding the object's initialization method inherited from NSObject */
+- (id)init{
+    
+    self = [super init];
+    
+    if (self) {
+        /* the object was successfully initialized, go to town */
+    }
+    
+    return self;
+}
+
 #pragma mark - setters
 
 - (void)setNumberOfDoors:(NSInteger)numberOfDoors{
@@ -25,4 +37,11 @@
     _numberOfWindows = _numberOfDoors + 4;
 }
 
+#pragma mark - class methods
+
++ (NSInteger)someCompexOperationUniqueToHouse{
+    
+    NSInteger someNumberDerivedAfterIntenseCalculation = 7;
+    return someNumberDerivedAfterIntenseCalculation;
+}
 @end
