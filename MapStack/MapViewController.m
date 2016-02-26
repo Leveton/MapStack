@@ -10,7 +10,7 @@
 
 #define kLocStringHelloWorld         NSLocalizedString(@"Hello World", @"Hello World")
 #define kLabelSide                   (200.0f)
-#define kTabbarHeight                 (49.0f)
+#define kTabbarHeight                (49.0f)
 @interface MapViewController ()
 @property (nonatomic, strong, nullable) UILabel *label;
 @end
@@ -19,6 +19,11 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    
+    
+    /* listen for a notification that the app's theme color changed */
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(themeColorChanged:) name:@"com.mapstack.userDidChangeTheme" object:nil];
+    
     // Do any additional setup after loading the view.
 }
 
@@ -58,5 +63,11 @@
     return _label;
 }
 
+#pragma mark - selectors
+
+/* implement the selector or your app will crash if this object receives a userDidChangeTheme notification */
+- (void)themeColorChanged:(NSNotification *)notification{
+    NSLog(@"anObject: %@", [notification object]);
+}
 
 @end

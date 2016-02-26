@@ -24,14 +24,16 @@
     // Dispose of any resources that can be recreated.
 }
 
-/*
-#pragma mark - Navigation
+#pragma mark - computed properties
 
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
+- (NSString *)userFirstName{
+    /* save the user's name for access in other classes */
+    NSString *name = @"Mike";
+    [[NSUserDefaults standardUserDefaults] setObject:name forKey:@"com.mapstack.primaryCarUser"];
+    
+    /* access this in other classes */
+    NSString *nameAgain = [[NSUserDefaults standardUserDefaults] objectForKey:@"com.mapstack.primaryCarUser"];
+    return nameAgain;
 }
-*/
 
 @end

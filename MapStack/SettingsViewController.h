@@ -10,4 +10,6 @@
 
 @interface SettingsViewController : UIViewController
 
+/* an example of a computed property, probably wouldn't have this in the view controller */
+- (NSString *)userFirstName;
 @end

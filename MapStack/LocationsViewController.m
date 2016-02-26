@@ -8,15 +8,32 @@
 
 #import "LocationsViewController.h"
 
-@interface LocationsViewController ()
-
+#define kTableViewPadding    (50.0f)
+@interface LocationsViewController ()<UITableViewDelegate, UITableViewDataSource>
+@property (nonatomic, strong) UITableView *tableView;
 @end
 
 @implementation LocationsViewController
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    
     // Do any additional setup after loading the view.
+}
+
+- (void)viewWillLayoutSubviews{
+    [super viewWillLayoutSubviews];
+    
+    /* this does double duty, ensuring that the table is intantiated */
+    CGRect tableViewFrame = [[self tableView] frame];
+    
+    /*let's give the table a 50 point padding */
+    tableViewFrame.origin.x     = kTableViewPadding;
+    tableViewFrame.origin.y     = kTableViewPadding;
+    tableViewFrame.size.width   = CGRectGetWidth([[self view] frame]) - (kTableViewPadding * 2);
+    tableViewFrame.size.height  = CGRectGetHeight([[self view] frame]) - (kTableViewPadding * 2);
+    
+    [[self tableView] setFrame:tableViewFrame];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -24,14 +41,27 @@
     // Dispose of any resources that can be recreated.
 }
 
-/*
-#pragma mark - Navigation
+#pragma mark - getters
 
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
+- (UITableView *)tableView{
+    if (!_tableView){
+        _tableView = [[UITableView alloc]initWithFrame:CGRectZero];
+        [_tableView setDelegate:self];
+        [_tableView setDataSource:self];
+        [[self view] addSubview:_tableView];
+    }
+    return _tableView;
 }
-*/
+
+/* cmd+click into this pragma to see the required methods */
+#pragma mark - UITableViewDelegate
+
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
+    return 10;
+}
+
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
+    return [UITableViewCell new];
+}
 
 @end
