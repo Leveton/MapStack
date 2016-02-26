@@ -10,6 +10,7 @@
 		1CD8573E1C7F826000D16303 /* LocationsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1CD8573D1C7F826000D16303 /* LocationsViewController.m */; };
 		1CD857411C7F827400D16303 /* FavoritesViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1CD857401C7F827400D16303 /* FavoritesViewController.m */; };
 		1CD857441C7F828400D16303 /* SettingsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1CD857431C7F828400D16303 /* SettingsViewController.m */; };
+		1CDCC4501C80F34E00D93B23 /* MSLocation.m in Sources */ = {isa = PBXBuildFile; fileRef = 1CDCC44F1C80F34E00D93B23 /* MSLocation.m */; };
 		1CEA95DF1C7D5D7E0053CD4F /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 1CEA95DE1C7D5D7E0053CD4F /* main.m */; };
 		1CEA95E21C7D5D7E0053CD4F /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 1CEA95E11C7D5D7E0053CD4F /* AppDelegate.m */; };
 		1CEA95EA1C7D5D7E0053CD4F /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1CEA95E91C7D5D7E0053CD4F /* Assets.xcassets */; };
@@ -35,6 +36,8 @@
 		1CD857401C7F827400D16303 /* FavoritesViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FavoritesViewController.m; sourceTree = "<group>"; };
 		1CD857421C7F828400D16303 /* SettingsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SettingsViewController.h; sourceTree = "<group>"; };
 		1CD857431C7F828400D16303 /* SettingsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SettingsViewController.m; sourceTree = "<group>"; };
+		1CDCC44E1C80F34E00D93B23 /* MSLocation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSLocation.h; sourceTree = "<group>"; };
+		1CDCC44F1C80F34E00D93B23 /* MSLocation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSLocation.m; sourceTree = "<group>"; };
 		1CEA95DA1C7D5D7E0053CD4F /* MapStack.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MapStack.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		1CEA95DE1C7D5D7E0053CD4F /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		1CEA95E01C7D5D7E0053CD4F /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
@@ -98,6 +101,8 @@
 				1CD857401C7F827400D16303 /* FavoritesViewController.m */,
 				1CD857421C7F828400D16303 /* SettingsViewController.h */,
 				1CD857431C7F828400D16303 /* SettingsViewController.m */,
+				1CDCC44E1C80F34E00D93B23 /* MSLocation.h */,
+				1CDCC44F1C80F34E00D93B23 /* MSLocation.m */,
 				1CEA95E91C7D5D7E0053CD4F /* Assets.xcassets */,
 				1CEA95EB1C7D5D7E0053CD4F /* LaunchScreen.storyboard */,
 				1CEA95EE1C7D5D7E0053CD4F /* Info.plist */,
@@ -223,6 +228,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				1CEA96041C7D5DA60053CD4F /* MapViewController.m in Sources */,
+				1CDCC4501C80F34E00D93B23 /* MSLocation.m in Sources */,
 				1CD857441C7F828400D16303 /* SettingsViewController.m in Sources */,
 				1CEA95E21C7D5D7E0053CD4F /* AppDelegate.m in Sources */,
 				1CEA95DF1C7D5D7E0053CD4F /* main.m in Sources */,

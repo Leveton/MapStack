@@ -7,6 +7,8 @@
 //
 
 #import "MapViewController.h"
+#import "MSLocation.h"
+
 #import <MapKit/MapKit.h>
 
 #define kMapSide                     (300.0f)
@@ -16,7 +18,7 @@
 @property (nonatomic, strong, nonnull) MKMapView            *map;
 @property (nonatomic, strong, nullable) CLLocationManager   *manager;
 @property (nonatomic, assign) CLLocationCoordinate2D        centerPoint;
-@property (nonatomic, strong, nullable) NSMutableArray      *locationsArray;
+@property (nonatomic, strong, nullable) NSMutableArray      *dataSource;
 @end
 
 @implementation MapViewController
@@ -32,7 +34,7 @@
     
     MKCoordinateRegion adjustedRegion = [[self map] regionThatFits:MKCoordinateRegionMakeWithDistance([self centerPoint], 1600, 1600)];
     [[self map] setRegion:adjustedRegion animated:YES];
-    
+
 }
 
 - (void)didReceiveMemoryWarning {
