@@ -17,6 +17,7 @@
 @property (nonatomic, strong, nullable) LocationsViewController *locationsViewController;
 @property (nonatomic, strong, nullable) FavoritesViewController *favoritesViewController;
 @property (nonatomic, strong, nullable) SettingsViewController  *settingsViewController;
+@property (nonatomic, strong, nullable) UIColor                 *themeColor;
 @end
 
 @implementation AppDelegate
@@ -25,7 +26,7 @@
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     // Override point for customization after application launch.
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
-    
+    [self themeColor];
     UITabBarController *controller = [[UITabBarController alloc]init];
     NSArray *controllers = [NSArray arrayWithObjects:[self mapViewController], [self locationsViewController], [self favoritesViewController], [self settingsViewController], nil];
     [controller setViewControllers:controllers];
@@ -63,7 +64,7 @@
 - (MapViewController *)mapViewController{
     if (!_mapViewController){
         _mapViewController = [[MapViewController alloc] init];
-        [[_mapViewController view] setBackgroundColor:[UIColor redColor]];
+        [[_mapViewController view] setBackgroundColor:[self themeColor]];
         [[_mapViewController tabBarItem] setImage:[UIImage imageNamed:@"home"]];
         [[_mapViewController tabBarItem] setTag:0];
     }
@@ -73,7 +74,7 @@
 - (LocationsViewController *)locationsViewController{
     if (!_locationsViewController){
         _locationsViewController = [[LocationsViewController alloc] init];
-        [[_locationsViewController view] setBackgroundColor:[UIColor blueColor]];
+        [[_locationsViewController view] setBackgroundColor:[self themeColor]];
         [[_locationsViewController tabBarItem] setImage:[UIImage imageNamed:@"table"]];
         [[_locationsViewController tabBarItem] setTag:1];
     }
@@ -83,7 +84,7 @@
 - (FavoritesViewController *)favoritesViewController{
     if (!_favoritesViewController){
         _favoritesViewController = [[FavoritesViewController alloc] init];
-        [[_favoritesViewController view] setBackgroundColor:[UIColor greenColor]];
+        [[_favoritesViewController view] setBackgroundColor:[self themeColor]];
         [[_favoritesViewController tabBarItem] setImage:[UIImage imageNamed:@"favorites"]];
         [[_favoritesViewController tabBarItem] setTag:2];
     }
@@ -93,11 +94,18 @@
 - (SettingsViewController *)settingsViewController{
     if (!_settingsViewController){
         _settingsViewController = [[SettingsViewController alloc] init];
-        [[_settingsViewController view] setBackgroundColor:[UIColor yellowColor]];
+        [[_settingsViewController view] setBackgroundColor:[self themeColor]];
         [[_settingsViewController tabBarItem] setImage:[UIImage imageNamed:@"settings"]];
         [[_settingsViewController tabBarItem] setTag:3];
     }
     return _settingsViewController;
+}
+
+- (UIColor *)themeColor{
+    if (!_themeColor){
+        _themeColor = [UIColor colorWithRed:74.0/255.0 green:144.0/255.0 blue:226.0/255.0 alpha:1.0];
+    }
+    return _themeColor;
 }
 
 @end
