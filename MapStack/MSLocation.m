@@ -16,6 +16,10 @@
     _title = title;
 }
 
+- (void)setType:(NSString *)type{
+    _type = type;
+}
+
 - (void)setCoordinate:(CLLocationCoordinate2D)coordinate{
     _coordinate = coordinate;
 }
