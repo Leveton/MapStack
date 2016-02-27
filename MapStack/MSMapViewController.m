@@ -112,20 +112,15 @@
     /* clear the current data sourcev */
     [[self dataSource] removeAllObjects];
     
-    /**
-     grab the local json file
-     */
+    /** grab the local json file */
     NSString *jsonFile = [[NSBundle mainBundle] pathForResource:@"MapStackLocations" ofType:@"json"];
-    /**
-     convert it to bytes
-     */
+
+    /**convert it to bytes*/
     NSData *jsonData = [NSData dataWithContentsOfFile:jsonFile];
     
-    /**
-     convert the bytes to json
-     */
+    /** serialize the bytes into a dictionary object */
     NSError *error;
-    id jsonResponse = [NSJSONSerialization JSONObjectWithData:jsonData options:NSJSONReadingMutableContainers error:&error];
+    NSDictionary *jsonResponse = [NSJSONSerialization JSONObjectWithData:jsonData options:NSJSONReadingMutableContainers error:&error];
     
     if (error){
         NSLog(@"json error: %@", error.description);
@@ -140,9 +135,7 @@
         [[self dataSource] addObject:[self createLocationWithDictionary:item]];
     }];
     
-    /**
-     get the reference to locations view controller and set its datasource
-     */
+    /** get the reference to locations view controller and set its datasource */
     NSArray *viewControllers = [[self tabBarController] viewControllers];
     MSLocationsViewController *vc = [viewControllers objectAtIndex:1];
     [vc setDataSource:[self dataSource]];

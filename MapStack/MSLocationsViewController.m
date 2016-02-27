@@ -19,9 +19,6 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    
-    [[self tableView] registerClass:[UITableViewCell class] forCellReuseIdentifier:@"locationCell"];
-    
 }
 
 - (void)viewWillLayoutSubviews{
@@ -70,21 +67,45 @@
     return [_dataSource count];
 }
 
+/* uncomment this to show a thousand reused rows */
+
+//- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
+//    static NSString *CellIdentifier = @"locationCell";
+//    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+//    
+//    if (!cell){
+//        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:CellIdentifier];
+//        NSLog(@"new cell");
+//    }else{
+//        NSLog(@"old cell");
+//    }
+//    [[cell textLabel] setText:[NSString stringWithFormat:@"row %ld", (long)indexPath.row]];
+//    [[cell detailTextLabel] setText:[NSString stringWithFormat:@"bottom %ld", (long)indexPath.row]];
+//    
+//    return cell;
+//}
+
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
     MSLocation *location = [_dataSource objectAtIndex:indexPath.row];
-    UITableViewCell *cell = [[UITableViewCell alloc]initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:@"locationCell"];
+    static NSString *CellIdentifier = @"locationCell";
+    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+    
+    if (!cell){
+        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:CellIdentifier];
+    }
+    
     [[cell textLabel] setText:[location title]];
     [[cell detailTextLabel] setText:[NSString stringWithFormat:@"distance: %f", location.distance]];
     
     return cell;
 }
 
+
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     MSLocation *location = [_dataSource objectAtIndex:indexPath.row];
     
     MSLocationDetailViewController *vc = [[MSLocationDetailViewController alloc]init];
     [vc setLocation:location];
-    [[vc view] setBackgroundColor:[UIColor redColor]];
     [self presentViewController:vc animated:YES completion:nil];
 }
 
