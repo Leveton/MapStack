@@ -57,6 +57,12 @@
 
 - (void)setDataSource:(NSArray *)dataSource{
     _dataSource = dataSource;
+    
+    /* sort by distance from highest to lowest */
+    NSSortDescriptor *sortDescriptor = [NSSortDescriptor sortDescriptorWithKey:@"distance"
+                                                                     ascending:NO];
+    _dataSource = [_dataSource sortedArrayUsingDescriptors:@[sortDescriptor]];
+    
     [[self tableView] reloadData];
 }
 

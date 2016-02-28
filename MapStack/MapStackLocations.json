@@ -54,49 +54,49 @@
             "name": "WeWork",
             "latitude": 25.790343,
             "longitude": -80.13159,
-            "distance": 19395,
+            "distance": 12395,
             "type": "StartUp",
             "image": "WeWork"
         }, {
             "name": "Venture Hive",
             "latitude": 25.7841796,
             "longitude": -80.1911146,
-            "distance": 19395,
+            "distance": 19396,
             "type": "StartUp",
             "image": "VentureHive"
         }, {
             "name": "The Lab",
             "latitude": 25.8011413,
             "longitude": -80.2022127,
-            "distance": 19395,
+            "distance": 11395,
             "type": "StartUp",
             "image": "TheLab"
         }, {
             "name": "Jackson Memorial",
             "latitude": 25.7919915,
             "longitude": -80.2130825,
-            "distance": 19395,
+            "distance": 35,
             "type": "Hospital",
             "image": "Jackson"
         }, {
             "name": "Baptist Hospital",
             "latitude": 25.803405,
             "longitude": -80.2708323,
-            "distance": 19395,
+            "distance": 199,
             "type": "Hospital",
             "image": "Baptist"
         }, {
             "name": "Miami Dade College",
             "latitude": 25.7776625,
             "longitude": -80.190763,
-            "distance": 19395,
+            "distance": 895,
             "type": "School",
             "image": "MDC"
         }, {
             "name": "New World School of the Arts",
             "latitude": 25.7768929,
             "longitude": -80.1938443,
-            "distance": 19395,
+            "distance": 193,
             "type": "School",
             "image": "NWSOTA"
         }
