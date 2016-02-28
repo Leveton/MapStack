@@ -11,6 +11,7 @@
 #import "MSLocationsViewController.h"
 #import "MSFavoritesViewController.h"
 #import "MSSettingsViewController.h"
+#import "MSSingleton.h"
 
 @interface AppDelegate ()
 @property (nonatomic, strong, nullable) MSMapViewController         *mapViewController;
@@ -26,7 +27,7 @@
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     // Override point for customization after application launch.
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
-    [self themeColor];
+    [MSSingleton sharedSingleton].themeColor = [self themeColor];
     UITabBarController *controller = [[UITabBarController alloc]init];
     NSArray *controllers = [NSArray arrayWithObjects:[self mapViewController], [self locationsViewController], [self favoritesViewController], [self settingsViewController], nil];
     [controller setViewControllers:controllers];

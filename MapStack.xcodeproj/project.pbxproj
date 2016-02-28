@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		1C47A7681C82657200DA2373 /* MSSingleton.m in Sources */ = {isa = PBXBuildFile; fileRef = 1C47A7671C82657200DA2373 /* MSSingleton.m */; };
 		1CD8573E1C7F826000D16303 /* MSLocationsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1CD8573D1C7F826000D16303 /* MSLocationsViewController.m */; };
 		1CD857411C7F827400D16303 /* MSFavoritesViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1CD857401C7F827400D16303 /* MSFavoritesViewController.m */; };
 		1CD857441C7F828400D16303 /* MSSettingsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1CD857431C7F828400D16303 /* MSSettingsViewController.m */; };
@@ -32,6 +33,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		1C47A7661C82657200DA2373 /* MSSingleton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSSingleton.h; sourceTree = "<group>"; };
+		1C47A7671C82657200DA2373 /* MSSingleton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSSingleton.m; sourceTree = "<group>"; };
 		1CD8573C1C7F826000D16303 /* MSLocationsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSLocationsViewController.h; sourceTree = "<group>"; };
 		1CD8573D1C7F826000D16303 /* MSLocationsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSLocationsViewController.m; sourceTree = "<group>"; };
 		1CD8573F1C7F827400D16303 /* MSFavoritesViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSFavoritesViewController.h; sourceTree = "<group>"; };
@@ -110,6 +113,8 @@
 				1CDCC45A1C815B1D00D93B23 /* MSLocationDetailViewController.m */,
 				1CDCC44E1C80F34E00D93B23 /* MSLocation.h */,
 				1CDCC44F1C80F34E00D93B23 /* MSLocation.m */,
+				1C47A7661C82657200DA2373 /* MSSingleton.h */,
+				1C47A7671C82657200DA2373 /* MSSingleton.m */,
 				1CDCC4601C8160EC00D93B23 /* MapStackLocations.json */,
 				1CEA95E91C7D5D7E0053CD4F /* Assets.xcassets */,
 				1CEA95EB1C7D5D7E0053CD4F /* LaunchScreen.storyboard */,
@@ -241,6 +246,7 @@
 				1CD857441C7F828400D16303 /* MSSettingsViewController.m in Sources */,
 				1CEA95E21C7D5D7E0053CD4F /* AppDelegate.m in Sources */,
 				1CDCC45B1C815B1D00D93B23 /* MSLocationDetailViewController.m in Sources */,
+				1C47A7681C82657200DA2373 /* MSSingleton.m in Sources */,
 				1CEA95DF1C7D5D7E0053CD4F /* main.m in Sources */,
 				1CD857411C7F827400D16303 /* MSFavoritesViewController.m in Sources */,
 				1CD8573E1C7F826000D16303 /* MSLocationsViewController.m in Sources */,
