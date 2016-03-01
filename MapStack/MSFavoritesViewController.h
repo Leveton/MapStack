@@ -10,4 +10,8 @@
 
 @interface MSFavoritesViewController : UIViewController
 
+@property (nonatomic, strong, readonly) NSArray *dataSource;
+
+- (void)setDataSource:(NSArray *)dataSource;
+
 @end

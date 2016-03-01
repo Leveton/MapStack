@@ -18,6 +18,7 @@
 @property (nonatomic, strong, nullable) MSLocationsViewController   *locationsViewController;
 @property (nonatomic, strong, nullable) MSFavoritesViewController   *favoritesViewController;
 @property (nonatomic, strong, nullable) MSSettingsViewController    *settingsViewController;
+@property (nonatomic, strong, nullable) UINavigationController      *favoritesNavigationController;
 @property (nonatomic, strong, nullable) UIColor                     *themeColor;
 @end
 
@@ -29,7 +30,7 @@
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     [MSSingleton sharedSingleton].themeColor = [self themeColor];
     UITabBarController *controller = [[UITabBarController alloc]init];
-    NSArray *controllers = [NSArray arrayWithObjects:[self mapViewController], [self locationsViewController], [self favoritesViewController], [self settingsViewController], nil];
+    NSArray *controllers = [NSArray arrayWithObjects:[self mapViewController], [self locationsViewController], [self favoritesNavigationController], [self settingsViewController], nil];
     [controller setViewControllers:controllers];
     
     [[self window] setRootViewController:controller];
@@ -65,7 +66,6 @@
 - (MSMapViewController *)mapViewController{
     if (!_mapViewController){
         _mapViewController = [[MSMapViewController alloc] init];
-        [[_mapViewController view] setBackgroundColor:[self themeColor]];
         [[_mapViewController tabBarItem] setImage:[UIImage imageNamed:@"home"]];
         [[_mapViewController tabBarItem] setTag:0];
     }
@@ -75,7 +75,6 @@
 - (MSLocationsViewController *)locationsViewController{
     if (!_locationsViewController){
         _locationsViewController = [[MSLocationsViewController alloc] init];
-        [[_locationsViewController view] setBackgroundColor:[self themeColor]];
         [[_locationsViewController tabBarItem] setImage:[UIImage imageNamed:@"table"]];
         [[_locationsViewController tabBarItem] setTag:1];
     }
@@ -85,7 +84,6 @@
 - (MSFavoritesViewController *)favoritesViewController{
     if (!_favoritesViewController){
         _favoritesViewController = [[MSFavoritesViewController alloc] init];
-        [[_favoritesViewController view] setBackgroundColor:[self themeColor]];
         [[_favoritesViewController tabBarItem] setImage:[UIImage imageNamed:@"favorites"]];
         [[_favoritesViewController tabBarItem] setTag:2];
     }
@@ -95,11 +93,17 @@
 - (MSSettingsViewController *)settingsViewController{
     if (!_settingsViewController){
         _settingsViewController = [[MSSettingsViewController alloc] init];
-        [[_settingsViewController view] setBackgroundColor:[self themeColor]];
         [[_settingsViewController tabBarItem] setImage:[UIImage imageNamed:@"settings"]];
         [[_settingsViewController tabBarItem] setTag:3];
     }
     return _settingsViewController;
+}
+
+- (UINavigationController *)favoritesNavigationController{
+    if (!_favoritesNavigationController){
+        _favoritesNavigationController = [[UINavigationController alloc]initWithRootViewController:[self favoritesViewController]];
+    }
+    return _favoritesNavigationController;
 }
 
 - (UIColor *)themeColor{
@@ -107,6 +111,25 @@
         _themeColor = [UIColor colorWithRed:74.0/255.0 green:144.0/255.0 blue:226.0/255.0 alpha:1.0];
     }
     return _themeColor;
+}
+
+
+#pragma mark - selectors
+
+- (void)addLocationToFavoritesWithLocation:(MSLocation *)location{
+    NSArray *favs = [[self favoritesViewController] dataSource];
+    NSMutableArray *mutableFavs = [[NSMutableArray alloc]initWithArray:favs];
+    [mutableFavs addObject:location];
+    [[self favoritesViewController] setDataSource:mutableFavs];
+}
+
+- (void)removeLocationFromFavoritesWithLocation:(MSLocation *)location{
+    NSArray *favs = [[self favoritesViewController] dataSource];
+    if ([favs containsObject:location]) {
+        NSMutableArray *mutableFavs = [[NSMutableArray alloc]initWithArray:favs];
+        [mutableFavs removeObject:location];
+        [[self favoritesViewController] setDataSource:mutableFavs];
+    }
 }
 
 @end

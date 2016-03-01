@@ -7,6 +7,13 @@
 //
 
 #import "MSSettingsViewController.h"
+#import "MSSingleton.h"
+
+typedef enum NSInteger {
+    kThemeColor,
+    kTypeFilter,
+    kLocation
+}sectionHeaders;
 
 @interface MSSettingsViewController ()
 
@@ -16,7 +23,13 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    // Do any additional setup after loading the view.
+    
+    /* make sure the global theme color has been set */
+    if ([MSSingleton sharedSingleton].themeColor) {
+        [[self view] setBackgroundColor:[MSSingleton sharedSingleton].themeColor];
+    }else{
+        [[self view] setBackgroundColor:[UIColor whiteColor]];
+    }
 }
 
 - (void)didReceiveMemoryWarning {

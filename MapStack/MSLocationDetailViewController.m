@@ -7,6 +7,7 @@
 //
 
 #import "MSLocationDetailViewController.h"
+#import "AppDelegate.h"
 #import "MSSingleton.h"
 
 #define kViewMargin           (10.0f)
@@ -18,9 +19,11 @@
 @property (nonatomic, strong) UILabel                *label;
 @property (nonatomic, strong) UILabel                *distanceLabel;
 @property (nonatomic, strong) UIButton               *dismissButton;
+@property (nonatomic, strong) UIButton               *favoriteButton;
 @property (nonatomic, strong) UIImageView            *imageView;
 @property (nonatomic, strong) UITapGestureRecognizer *tap;
 @property (nonatomic, strong) UIPanGestureRecognizer *pan;
+@property (nonatomic, assign) BOOL                   isLocationFavorited;
 @end
 
 @implementation MSLocationDetailViewController
@@ -34,6 +37,28 @@
     }else{
         [[self view] setBackgroundColor:[UIColor whiteColor]];
     }
+    
+    /* determine if this location has been favorited */
+    NSInteger locationId = [_location locationId];
+    NSArray *favorites   = [[NSUserDefaults standardUserDefaults] objectForKey:@"favoritesArray"];
+    
+    /* another example of a block, unlike with animations, the code is executed imediately before the method returns */
+    [favorites enumerateObjectsUsingBlock:^(NSNumber *item, NSUInteger idx, BOOL *stop) {
+        
+        if ([item integerValue] == locationId){
+            _isLocationFavorited = YES;
+            *stop = YES;
+        }
+    }];
+    
+    if (_isLocationFavorited){
+        [[self favoriteButton] setImage:[UIImage imageNamed:@"favoriteStar"] forState:UIControlStateNormal];
+    }else{
+        [[self favoriteButton] setImage:[UIImage imageNamed:@"favoriteStarEmpty"] forState:UIControlStateNormal];
+    }
+    
+    [[self favoriteButton] sizeToFit];
+    
 }
 
 - (void)viewWillLayoutSubviews{
@@ -42,8 +67,10 @@
     CGRect imageFrame     = [[self imageView] frame];
     imageFrame.origin.x   = kViewMargin;
     
-    /* the status bar is 20 points */
-    imageFrame.origin.y   = (kViewMargin * 2) + 20.0f;
+    /* the status bar is 20 points, the navbar (if exists) is 44 */
+    CGFloat navHeight = _isViewPresented ? 20.0f : 64.0f;
+    
+    imageFrame.origin.y   = (kViewMargin * 2) + navHeight;
     imageFrame.size.width = CGRectGetWidth([[self view] frame]) - (kViewMargin *2);
     imageFrame.size.height= kImageHeight;
     [[self imageView] setFrame:imageFrame];
@@ -65,18 +92,33 @@
     distanceLabelFrame.size.height= kLabelHeight;
     [[self distanceLabel] setFrame:distanceLabelFrame];
     
-    CGRect dismissFrame   = [[self dismissButton] frame];
-    dismissFrame.origin.x = kViewMargin;
+    if (_isViewPresented){
+        CGRect dismissFrame   = [[self dismissButton] frame];
+        dismissFrame.origin.x = kViewMargin;
+        
+        /* the status bar is 20 points, the navbar (if exists) is 44 */
+        dismissFrame.origin.y = _isViewPresented ? 20.0f : 64.0f;
+        
+        [[self dismissButton] setFrame:dismissFrame];
+    }
     
-    /* the status bar is 20 points */
-    dismissFrame.origin.y = 20.0f;
+    CGRect favoriteFrame   = [[self favoriteButton] frame];
+    favoriteFrame.origin.x = CGRectGetWidth([[self view] frame]) - (favoriteFrame.size.width + kViewMargin);
     
-    [[self dismissButton] setFrame:dismissFrame];
+    /* the status bar is 20 points, the navbar (if exists) is 44 */
+    favoriteFrame.origin.y = _isViewPresented ? 20.0f : 64.0f;
+    
+    [[self favoriteButton] setFrame:favoriteFrame];
 }
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+
+/* hides the tabbar if it's pushed onto the stack */
+- (BOOL)hidesBottomBarWhenPushed{
+    return YES;
 }
 
 #pragma mark - getters
@@ -126,11 +168,27 @@
         
         [_dismissButton addGestureRecognizer:[self pan]];
         
-        /* this is how, in code, you make a button trigger an action upon tap */
+        /* Make the button do something. Notice the 'TouchUpInside' enum */
         [_dismissButton addTarget:self action:@selector(didTapDismiss:) forControlEvents:UIControlEventTouchUpInside];
-        [[self view] addSubview:_dismissButton];
+        
+        /* only show dismiss button if view is modal */
+        if (_isViewPresented){
+          [[self view] addSubview:_dismissButton];
+        }
     }
     return _dismissButton;
+}
+
+- (UIButton *)favoriteButton{
+    if (!_favoriteButton){
+        
+        _favoriteButton = [UIButton buttonWithType:UIButtonTypeSystem];
+        [_favoriteButton setFrame:CGRectZero];;
+        
+        [_favoriteButton addTarget:self action:@selector(didTapFavorite:) forControlEvents:UIControlEventTouchUpInside];
+        [[self view] addSubview:_favoriteButton];
+    }
+    return _favoriteButton;
 }
 
 - (UITapGestureRecognizer *)tap{
@@ -175,6 +233,10 @@
     [[self imageView] setImage:[_location locationImage]];
 }
 
+- (void)setIsViewPresented:(BOOL)isViewPresented{
+    _isViewPresented = isViewPresented;
+}
+
 #pragma mark - selectors
 
 /* uncomment this to show exampple of block variable used in place of an inline block */
@@ -204,7 +266,40 @@
     [[self distanceLabel] setHidden:![[self distanceLabel] isHidden]];
     
     [self animateDistanceLabel];
+    
+}
 
+- (void)didTapFavorite:(id)sender{
+    
+    /*let's prevent interaction until the method returns */
+    [sender setEnabled:NO];
+    
+    [sender setImage:_isLocationFavorited ? [UIImage imageNamed:@"favoriteStarEmpty"] :[UIImage imageNamed:@"favoriteStar"] forState:UIControlStateNormal];
+    
+    
+    NSNumber *locationId = [NSNumber numberWithInteger:[_location locationId]];
+    NSArray *favs = [[NSUserDefaults standardUserDefaults] objectForKey:@"favoritesArray"];
+    
+    /* one of several mutable array convenience initializers */
+    NSMutableArray *mutableFavs = [NSMutableArray arrayWithArray:favs];
+    
+    AppDelegate *delegate = [[UIApplication sharedApplication] delegate];
+    if (_isLocationFavorited){
+        [mutableFavs removeObject:locationId];
+        [delegate removeLocationFromFavoritesWithLocation:_location];
+    }else{
+        [mutableFavs addObject:locationId];
+        [delegate addLocationToFavoritesWithLocation:_location];
+    }
+    
+    /* standard hack to prevent duplicates, by filtering the array through a set, all duplicates are removed because set elements must be unique */
+    NSSet *set = [NSSet setWithArray:mutableFavs];
+    favs = [set allObjects];
+    
+    [[NSUserDefaults standardUserDefaults] setObject:favs forKey:@"favoritesArray"];
+    _isLocationFavorited = !_isLocationFavorited;
+    [sender setEnabled:YES];
+    
 }
 
 - (void)didPanImageView:(UIPanGestureRecognizer *)panRecongnizer{
@@ -215,25 +310,25 @@
 
 - (void)animateDistanceLabel{
     
-//    /* ensure that the user cannot rapidly hide and unhide the label */
-//    [[self label] setUserInteractionEnabled:NO];
-//    
-//    CGRect frame    = [[self distanceLabel] frame];
-//    CGFloat yOffset = [[self distanceLabel] isHidden] ? -kAnimationHeight : kAnimationHeight;
-//    frame.origin.y  = frame.origin.y + yOffset;
-//    
-//    [UIView animateWithDuration:0.3f
-//                          delay:0.1f
-//                        options:UIViewAnimationOptionCurveLinear
-//                     animations:^{
-//                         [[self distanceLabel] setFrame:frame];
-//                     }
-//                     completion:^(BOOL finished) {
-//                    
-//                         /* animation complete. allow the user to toggle the label */
-//                         [[self label] setUserInteractionEnabled:YES];
-//                         
-//                     }];
+        /* ensure that the user cannot rapidly hide and unhide the label */
+        [[self label] setUserInteractionEnabled:NO];
+    
+        CGRect frame    = [[self distanceLabel] frame];
+        CGFloat yOffset = [[self distanceLabel] isHidden] ? -kAnimationHeight : kAnimationHeight;
+        frame.origin.y  = frame.origin.y + yOffset;
+    
+        [UIView animateWithDuration:0.3f
+                              delay:0.1f
+                            options:UIViewAnimationOptionCurveLinear
+                         animations:^{
+                             [[self distanceLabel] setFrame:frame];
+                         }
+                         completion:^(BOOL finished) {
+    
+                             /* animation complete. allow the user to toggle the label */
+                             [[self label] setUserInteractionEnabled:YES];
+    
+                         }];
 }
 
 @end

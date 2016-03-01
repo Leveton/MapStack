@@ -12,6 +12,8 @@
 @interface MSLocationDetailViewController : UIViewController
 
 @property (nonatomic, strong, readonly) MSLocation *location;
+@property (nonatomic, assign, readonly) BOOL       isViewPresented;
 
 - (void)setLocation:(MSLocation *)location;
+- (void)setIsViewPresented:(BOOL)isViewPresented;
 @end

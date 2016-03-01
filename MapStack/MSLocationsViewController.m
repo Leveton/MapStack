@@ -7,6 +7,7 @@
 //
 
 #import "MSLocation.h"
+#import "MSSingleton.h"
 #import "MSLocationsViewController.h"
 #import "MSLocationDetailViewController.h"
 
@@ -19,6 +20,13 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    
+    /* make sure the global theme color has been set */
+    if ([MSSingleton sharedSingleton].themeColor) {
+        [[self view] setBackgroundColor:[MSSingleton sharedSingleton].themeColor];
+    }else{
+        [[self view] setBackgroundColor:[UIColor whiteColor]];
+    }
 }
 
 - (void)viewWillLayoutSubviews{
@@ -111,6 +119,7 @@
     MSLocation *location = [_dataSource objectAtIndex:indexPath.row];
     
     MSLocationDetailViewController *vc = [[MSLocationDetailViewController alloc]init];
+    [vc setIsViewPresented:YES];
     [vc setLocation:location];
     [self presentViewController:vc animated:YES completion:nil];
 }

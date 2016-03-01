@@ -28,6 +28,10 @@
     _distance = distance;
 }
 
+- (void)setLocationId:(NSInteger)locationId{
+    _locationId = locationId;
+}
+
 - (void)setLocationImage:(UIImage *)locationImage{
     _locationImage = locationImage;
 }

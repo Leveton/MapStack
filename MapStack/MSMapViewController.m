@@ -7,8 +7,10 @@
 //
 
 #import "MSLocation.h"
+#import "MSSingleton.h"
 #import "MSMapViewController.h"
 #import "MSLocationsViewController.h"
+#import "MSFavoritesViewController.h"
 
 #import <MapKit/MapKit.h>
 
@@ -29,6 +31,13 @@
     
     /* listen for a notification that the app's theme color changed */
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(themeColorChanged:) name:@"com.mapstack.userDidChangeTheme" object:nil];
+    
+    /* make sure the global theme color has been set */
+    if ([MSSingleton sharedSingleton].themeColor) {
+        [[self view] setBackgroundColor:[MSSingleton sharedSingleton].themeColor];
+    }else{
+        [[self view] setBackgroundColor:[UIColor whiteColor]];
+    }
     
     /* get the user's current location */
     [[self manager] startUpdatingLocation];
@@ -114,7 +123,7 @@
     
     /** grab the local json file */
     NSString *jsonFile = [[NSBundle mainBundle] pathForResource:@"MapStackLocations" ofType:@"json"];
-
+    
     /**convert it to bytes*/
     NSData *jsonData = [NSData dataWithContentsOfFile:jsonFile];
     
@@ -128,17 +137,31 @@
     }
     
     NSArray *locationDictionaries = [jsonResponse objectForKey:@"MapStackLocationsArray"];
-    
+    NSArray *favs                 = [[NSUserDefaults standardUserDefaults] objectForKey:@"favoritesArray"];
+    NSMutableArray *mutableFavs   = [[NSMutableArray alloc]init];
     /* Create a mapstacklocation object for each json object. Use fast enumeration here instead of a for loop. it's a touch slower but safer */
     [locationDictionaries enumerateObjectsUsingBlock:^(NSDictionary *item, NSUInteger idx, BOOL *stop) {
         
-        [[self dataSource] addObject:[self createLocationWithDictionary:item]];
+        MSLocation *location = [self createLocationWithDictionary:item];
+        [[self dataSource] addObject:location];
+        
+        NSNumber *locationId = [NSNumber numberWithInteger:[[item objectForKey:@"locationId"] integerValue]];
+        if ([favs containsObject:locationId]){
+            [mutableFavs addObject:location];
+        }
+        
     }];
     
     /** get the reference to locations view controller and set its datasource */
     NSArray *viewControllers = [[self tabBarController] viewControllers];
-    MSLocationsViewController *vc = [viewControllers objectAtIndex:1];
-    [vc setDataSource:[self dataSource]];
+    MSLocationsViewController *locationsVC = [viewControllers objectAtIndex:1];
+    [locationsVC setDataSource:[self dataSource]];
+    
+    UINavigationController *favsNav = [viewControllers objectAtIndex:2];
+    
+    /* cast to get a reference to the favorites view. Caution! topViewController is the vc currently atop the stack */
+    MSFavoritesViewController *favsVC = (MSFavoritesViewController *)[favsNav topViewController];
+    [favsVC setDataSource:mutableFavs];
     
 }
 
@@ -152,6 +175,7 @@
     coordinate.longitude = [[dict objectForKey:@"longitude"] floatValue];
     location.coordinate  = coordinate;
     
+    [location setLocationId:[[dict objectForKey:@"locationId"] integerValue]];
     [location setTitle:[dict objectForKey:@"name"]];
     [location setType:[dict objectForKey:@"type"]];
     [location setCoordinate:coordinate];
@@ -161,7 +185,6 @@
     [location setLocationImage:image];
     
     [[self map] addAnnotation:location];
-    
     return location;
 }
 

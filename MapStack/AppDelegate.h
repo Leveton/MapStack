@@ -7,11 +7,13 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "MSLocation.h"
 
 @interface AppDelegate : UIResponder <UIApplicationDelegate>
 
 @property (strong, nonatomic) UIWindow *window;
 
-
+- (void)addLocationToFavoritesWithLocation:(MSLocation *)location;
+- (void)removeLocationFromFavoritesWithLocation:(MSLocation *)location;
 @end
 
