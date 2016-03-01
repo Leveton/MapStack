@@ -13,7 +13,7 @@
 #import "MSLocation.h"
 
 #define kTableViewPadding    (20.0f)
-@interface MSFavoritesViewController ()<UITableViewDataSource, UITableViewDelegate>
+@interface MSFavoritesViewController ()<UITableViewDataSource, UITableViewDelegate, MSTableViewCellDelegate>
 @property (nonatomic, strong) UITableView *tableView;
 @end
 
@@ -68,6 +68,10 @@
         _tableView = [[UITableView alloc]initWithFrame:CGRectZero];
         [_tableView setDelegate:self];
         [_tableView setDataSource:self];
+        
+        /*hide separator lines */
+        [_tableView setSeparatorStyle:UITableViewCellSeparatorStyleNone];
+        
         [[self view] addSubview:_tableView];
     }
     return _tableView;
@@ -82,10 +86,6 @@
 
 #pragma mark - UITableViewDelegate
 
-- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section{
-    return 0.0f;
-}
-
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
     return [_dataSource count];
 }
@@ -93,27 +93,62 @@
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
     MSLocation *location = [_dataSource objectAtIndex:indexPath.row];
     static NSString *CellIdentifier = @"locationCell";
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
-    
+    MSTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
     if (!cell){
-        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:CellIdentifier];
+        cell = [[MSTableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:CellIdentifier];
     }
+    [cell setDelegate:self];
+    [cell setTag:indexPath.row];
+    [cell setLocation:location];
     
-    [[cell textLabel] setText:[location title]];
-    [[cell detailTextLabel] setText:[NSString stringWithFormat:@"distance: %f", location.distance]];
+    /*remove highlight when selected */
+    [cell setSelectionStyle:UITableViewCellSelectionStyleNone];
     
     return cell;
 }
 
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
+    /* give enough room for our images */
+    
+    return 100.0f;
+}
 
-- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
-    MSLocation *location = [_dataSource objectAtIndex:indexPath.row];
+#pragma mark - MSTableViewCellDelegate
+
+- (void)deleteButtonTappedFromCell:(MSTableViewCell *)cell{
+    
+    NSArray *favs               = [[NSUserDefaults standardUserDefaults] objectForKey:@"favoritesArray"];
+    NSNumber *locationId        = [favs objectAtIndex:cell.tag];
+    NSMutableArray *mutableFavs = [[NSMutableArray alloc]initWithArray:favs];
+    [mutableFavs removeObject:locationId];
+    [[NSUserDefaults standardUserDefaults] setObject:mutableFavs forKey:@"favoritesArray"];
+    
+    MSLocation *location        = [_dataSource objectAtIndex:cell.tag];
+    NSMutableArray *mutableLocs = [[NSMutableArray alloc]initWithArray:_dataSource];
+    [mutableLocs removeObject:location];
+    _dataSource                 = mutableLocs;
+    
+    NSIndexPath *indexPath = [NSIndexPath indexPathForRow:cell.tag inSection:0];
+    
+    [[self tableView] beginUpdates];
+    [[self tableView] deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
+    [[self tableView] endUpdates];
+    
+    
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.3 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+        [[self tableView] reloadData];
+    });
+    
+}
+
+- (void)detailsButtonTappedFromCell:(MSTableViewCell *)cell{
+    
+    MSLocation *location = [_dataSource objectAtIndex:cell.tag];
     
     MSLocationDetailViewController *vc = [[MSLocationDetailViewController alloc]init];
     [vc setIsViewPresented:NO];
     [vc setLocation:location];
     [[self navigationController] pushViewController:vc animated:YES];
 }
-
 
 @end
