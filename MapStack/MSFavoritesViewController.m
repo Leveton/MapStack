@@ -108,8 +108,8 @@
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
+
     /* give enough room for our images */
-    
     return 100.0f;
 }
 
@@ -117,32 +117,27 @@
 
 - (void)deleteButtonTappedFromCell:(MSTableViewCell *)cell{
     
+    /* use good old favs and mutableFavs to get the id's of the favorited locations */
     NSArray *favs               = [[NSUserDefaults standardUserDefaults] objectForKey:@"favoritesArray"];
     NSNumber *locationId        = [favs objectAtIndex:cell.tag];
     NSMutableArray *mutableFavs = [[NSMutableArray alloc]initWithArray:favs];
     [mutableFavs removeObject:locationId];
     [[NSUserDefaults standardUserDefaults] setObject:mutableFavs forKey:@"favoritesArray"];
     
+    /* get a mutable reference to our data source and remove the deleted location */
     MSLocation *location        = [_dataSource objectAtIndex:cell.tag];
     NSMutableArray *mutableLocs = [[NSMutableArray alloc]initWithArray:_dataSource];
     [mutableLocs removeObject:location];
     _dataSource                 = mutableLocs;
     
-    NSIndexPath *indexPath = [NSIndexPath indexPathForRow:cell.tag inSection:0];
-    
-    [[self tableView] beginUpdates];
-    [[self tableView] deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
-    [[self tableView] endUpdates];
-    
-    
-    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.3 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-        [[self tableView] reloadData];
-    });
+    /* update the table. We'll make this a better user experience in a future lesson */
+    [[self tableView] reloadData];
     
 }
 
 - (void)detailsButtonTappedFromCell:(MSTableViewCell *)cell{
     
+    /* Same code as 'didSelectRowAtIndexPath' from the last lasson */
     MSLocation *location = [_dataSource objectAtIndex:cell.tag];
     
     MSLocationDetailViewController *vc = [[MSLocationDetailViewController alloc]init];

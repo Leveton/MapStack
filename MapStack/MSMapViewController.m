@@ -22,6 +22,8 @@
 @property (nonatomic, strong, nullable) CLLocationManager            *manager;
 @property (nonatomic, assign) CLLocationCoordinate2D                 centerPoint;
 @property (nonatomic, strong, nullable) NSMutableArray<MSLocation *> *dataSource;
+@property (nonatomic, strong, nullable) NSMutableURLRequest          *locationsRequest;
+@property (nonatomic, strong, nullable) NSURLSession                 *sessionLocations;
 @end
 
 @implementation MSMapViewController
@@ -110,6 +112,23 @@
     return _dataSource;
 }
 
+- (NSMutableURLRequest *)locationsRequest{
+    if (!_locationsRequest){
+         NSURL *url = [NSURL URLWithString:@"http://mikeleveton.com/MapStackLocations.json"];
+        _locationsRequest = [[NSMutableURLRequest alloc] initWithURL:url];
+    }
+    return _locationsRequest;
+}
+
+- (NSURLSession *)sessionLocations{
+    if (!_sessionLocations){
+        NSURLSessionConfiguration *config = [NSURLSessionConfiguration defaultSessionConfiguration];
+        _sessionLocations                 = [NSURLSession sessionWithConfiguration:config];
+    }
+    return _sessionLocations;
+}
+
+
 #pragma mark - selectors
 
 /* implement the selector or your app will crash if this object receives a userDidChangeTheme notification */
@@ -117,52 +136,118 @@
 }
 
 - (void)populateMap{
+
     
-    /* clear the current data sourcev */
-    [[self dataSource] removeAllObjects];
-    
-    /** grab the local json file */
-    NSString *jsonFile = [[NSBundle mainBundle] pathForResource:@"MapStackLocations" ofType:@"json"];
-    
-    /**convert it to bytes*/
-    NSData *jsonData = [NSData dataWithContentsOfFile:jsonFile];
-    
-    /** serialize the bytes into a dictionary object */
-    NSError *error;
-    NSDictionary *jsonResponse = [NSJSONSerialization JSONObjectWithData:jsonData options:NSJSONReadingMutableContainers error:&error];
-    
-    if (error){
-        NSLog(@"json error: %@", error.description);
-        return;
-    }
-    
-    NSArray *locationDictionaries = [jsonResponse objectForKey:@"MapStackLocationsArray"];
-    NSArray *favs                 = [[NSUserDefaults standardUserDefaults] objectForKey:@"favoritesArray"];
-    NSMutableArray *mutableFavs   = [[NSMutableArray alloc]init];
-    /* Create a mapstacklocation object for each json object. Use fast enumeration here instead of a for loop. it's a touch slower but safer */
-    [locationDictionaries enumerateObjectsUsingBlock:^(NSDictionary *item, NSUInteger idx, BOOL *stop) {
+    NSURLSessionDataTask *locationTask = [[self sessionLocations] dataTaskWithRequest:[self locationsRequest] completionHandler:^(NSData *data, NSURLResponse *response, NSError *error){
         
-        MSLocation *location = [self createLocationWithDictionary:item];
-        [[self dataSource] addObject:location];
-        
-        NSNumber *locationId = [NSNumber numberWithInteger:[[item objectForKey:@"locationId"] integerValue]];
-        if ([favs containsObject:locationId]){
-            [mutableFavs addObject:location];
+        if (!error){
+            NSError *JSONSerializationError;
+            
+            /** convert raw bytes to JSON */
+            id jsonResponse = [NSJSONSerialization
+                               JSONObjectWithData:data
+                               options:NSJSONReadingMutableContainers
+                               error:&JSONSerializationError];
+            
+            if (JSONSerializationError){
+                NSLog(@"JSON error: %@", JSONSerializationError.description);
+                [locationTask cancel];
+                [self getLocalData];
+                return;
+            }
+            
+            /* clear the current data sourcev */
+            [[self dataSource] removeAllObjects];
+            
+            NSLog(@"jsonResponse: %@", jsonResponse);
+            NSArray *locationDictionaries = [jsonResponse objectForKey:@"MapStackLocationsArray"];
+            
+            NSArray *favs                 = [[NSUserDefaults standardUserDefaults] objectForKey:@"favoritesArray"];
+            NSMutableArray *mutableFavs   = [[NSMutableArray alloc]init];
+            /* Create a mapstacklocation object for each json object. Use fast enumeration here instead of a for loop. it's a touch slower but safer */
+            [locationDictionaries enumerateObjectsUsingBlock:^(NSDictionary *item, NSUInteger idx, BOOL *stop) {
+                
+                MSLocation *location = [self createLocationWithDictionary:item];
+                [[self dataSource] addObject:location];
+                
+                NSNumber *locationId = [NSNumber numberWithInteger:[[item objectForKey:@"locationId"] integerValue]];
+                if ([favs containsObject:locationId]){
+                    [mutableFavs addObject:location];
+                }
+                
+            }];
+            
+            /** get the reference to locations view controller and set its datasource */
+            NSArray *viewControllers = [[self tabBarController] viewControllers];
+            MSLocationsViewController *locationsVC = [viewControllers objectAtIndex:1];
+            [locationsVC setDataSource:[self dataSource]];
+            
+            UINavigationController *favsNav = [viewControllers objectAtIndex:2];
+            
+            /* cast to get a reference to the favorites view. Caution! topViewController is the vc currently atop the stack */
+            MSFavoritesViewController *favsVC = (MSFavoritesViewController *)[favsNav topViewController];
+            [favsVC setDataSource:mutableFavs];
+            
+        }else{
+            [locationTask cancel];
+            [self getLocalData];
+            return;
         }
-        
     }];
     
-    /** get the reference to locations view controller and set its datasource */
-    NSArray *viewControllers = [[self tabBarController] viewControllers];
-    MSLocationsViewController *locationsVC = [viewControllers objectAtIndex:1];
-    [locationsVC setDataSource:[self dataSource]];
+    [locationTask resume];
+}
+
+- (void)getLocalData{
     
-    UINavigationController *favsNav = [viewControllers objectAtIndex:2];
-    
-    /* cast to get a reference to the favorites view. Caution! topViewController is the vc currently atop the stack */
-    MSFavoritesViewController *favsVC = (MSFavoritesViewController *)[favsNav topViewController];
-    [favsVC setDataSource:mutableFavs];
-    
+    dispatch_async(dispatch_get_main_queue(), ^{
+        
+        /* clear the current data sourcev */
+        [[self dataSource] removeAllObjects];
+        
+        /** grab the local json file */
+        NSString *jsonFile = [[NSBundle mainBundle] pathForResource:@"MapStackLocations" ofType:@"json"];
+        
+        /**convert it to bytes*/
+        NSData *jsonData = [NSData dataWithContentsOfFile:jsonFile];
+        
+        /** serialize the bytes into a dictionary object */
+        NSError *error;
+        NSDictionary *jsonResponse = [NSJSONSerialization JSONObjectWithData:jsonData options:NSJSONReadingMutableContainers error:&error];
+        
+        if (error){
+            NSLog(@"json error: %@", error.description);
+            return;
+        }
+        
+        NSArray *locationDictionaries = [jsonResponse objectForKey:@"MapStackLocationsArray"];
+        NSArray *favs                 = [[NSUserDefaults standardUserDefaults] objectForKey:@"favoritesArray"];
+        NSMutableArray *mutableFavs   = [[NSMutableArray alloc]init];
+        /* Create a mapstacklocation object for each json object. Use fast enumeration here instead of a for loop. it's a touch slower but safer */
+        [locationDictionaries enumerateObjectsUsingBlock:^(NSDictionary *item, NSUInteger idx, BOOL *stop) {
+            
+            MSLocation *location = [self createLocationWithDictionary:item];
+            [[self dataSource] addObject:location];
+            
+            NSNumber *locationId = [NSNumber numberWithInteger:[[item objectForKey:@"locationId"] integerValue]];
+            if ([favs containsObject:locationId]){
+                [mutableFavs addObject:location];
+            }
+            
+        }];
+        
+        /** get the reference to locations view controller and set its datasource */
+        NSArray *viewControllers = [[self tabBarController] viewControllers];
+        MSLocationsViewController *locationsVC = [viewControllers objectAtIndex:1];
+        [locationsVC setDataSource:[self dataSource]];
+        
+        UINavigationController *favsNav = [viewControllers objectAtIndex:2];
+        
+        /* cast to get a reference to the favorites view. Caution! topViewController is the vc currently atop the stack */
+        MSFavoritesViewController *favsVC = (MSFavoritesViewController *)[favsNav topViewController];
+        [favsVC setDataSource:mutableFavs];
+        
+    });
 }
 
 - (MSLocation *)createLocationWithDictionary:(NSDictionary *)dict{
