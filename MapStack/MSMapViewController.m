@@ -8,6 +8,7 @@
 
 #import "MSLocation.h"
 #import "MSSingleton.h"
+#import "MSProgressView.h"
 #import "MSMapViewController.h"
 #import "MSLocationsViewController.h"
 #import "MSFavoritesViewController.h"
@@ -24,6 +25,7 @@
 @property (nonatomic, strong, nullable) NSMutableArray<MSLocation *> *dataSource;
 @property (nonatomic, strong, nullable) NSMutableURLRequest          *locationsRequest;
 @property (nonatomic, strong, nullable) NSURLSession                 *sessionLocations;
+@property (nonatomic, strong, nullable) MSProgressView               *progressView;
 @end
 
 @implementation MSMapViewController
@@ -74,6 +76,15 @@
     return _map;
 }
 
+- (MSProgressView *)progressView{
+    if (!_progressView){
+        _progressView = [[MSProgressView alloc]initWithFrame:CGRectZero];
+        [_progressView setHidden:YES];
+        [[self view] addSubview:_progressView];
+    }
+    return _progressView;
+}
+
 - (CGRect)mapFrame{
     
     /* use 2 floats defined at the top to set the map's size (it's width and height) */
@@ -119,7 +130,7 @@
          As of iOS 9, apple requires that API endpoint use SSL. Were I to server this API via HTTP, the download would fail unless you executed a specific hack (Google app transport security for details on this).
          */
         
-         NSURL *url = [NSURL URLWithString:@"http://mikeleveton.com/MapStackLocations.json"];
+        NSURL *url = [NSURL URLWithString:@"http://mikeleveton.com/MapStackLocations.json"];
         _locationsRequest = [[NSMutableURLRequest alloc] initWithURL:url];
     }
     return _locationsRequest;
@@ -147,7 +158,8 @@
 }
 
 - (void)populateMap{
-
+    
+    [self shouldHideProgressView:NO];
     
     /* NSURLSessionDataTask returns data directly to the app in a block. This time, the block is exectuted when the response comes from the server */
     
@@ -212,8 +224,9 @@
     /**
      grab the main UI thread since the current thread of execution hasn't returned from the NSURLSession. Remember, sessionLocations will hijack the current thread of execution because we use the default configuration rather than the background configuration.
      */
-    dispatch_async(dispatch_get_main_queue(), ^{
     
+    dispatch_async(dispatch_get_main_queue(), ^{
+        
         NSArray *locationDictionaries = [dictionary objectForKey:@"MapStackLocationsArray"];
         NSArray *favs                 = [[NSUserDefaults standardUserDefaults] objectForKey:@"favoritesArray"];
         NSMutableArray *mutableFavs   = [[NSMutableArray alloc]init];
@@ -265,6 +278,20 @@
     
     [[self map] addAnnotation:location];
     return location;
+}
+
+- (void)shouldHideProgressView:(BOOL)hide{
+    
+    if (hide) {
+        [[[self progressView] progressView] stopAnimating];
+        [[self progressView] setHidden:YES];
+        [[[self progressView] progressView] setHidden:YES];
+    }else{
+        [[self progressView] setFrame:[self mapFrame]];
+        [[[self progressView] progressView] setHidden:NO];
+        [[[self progressView] progressView] startAnimating];
+        [[self progressView] setHidden:NO];
+    }
 }
 
 

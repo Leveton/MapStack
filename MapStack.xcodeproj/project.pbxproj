@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		1C0AD5B31C89323200604BA4 /* MSProgressView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1C0AD5B21C89323200604BA4 /* MSProgressView.m */; };
 		1C47A7681C82657200DA2373 /* MSSingleton.m in Sources */ = {isa = PBXBuildFile; fileRef = 1C47A7671C82657200DA2373 /* MSSingleton.m */; };
 		1CD599661C851DD900414002 /* MSTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 1CD599651C851DD900414002 /* MSTableViewCell.m */; };
 		1CD8573E1C7F826000D16303 /* MSLocationsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1CD8573D1C7F826000D16303 /* MSLocationsViewController.m */; };
@@ -34,6 +35,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		1C0AD5B11C89323200604BA4 /* MSProgressView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSProgressView.h; sourceTree = "<group>"; };
+		1C0AD5B21C89323200604BA4 /* MSProgressView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSProgressView.m; sourceTree = "<group>"; };
 		1C47A7661C82657200DA2373 /* MSSingleton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSSingleton.h; sourceTree = "<group>"; };
 		1C47A7671C82657200DA2373 /* MSSingleton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSSingleton.m; sourceTree = "<group>"; };
 		1CD599641C851DD900414002 /* MSTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSTableViewCell.h; sourceTree = "<group>"; };
@@ -81,6 +84,43 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		1C0AD5AE1C8931C900604BA4 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				1CDCC44E1C80F34E00D93B23 /* MSLocation.h */,
+				1CDCC44F1C80F34E00D93B23 /* MSLocation.m */,
+			);
+			name = Models;
+			sourceTree = "<group>";
+		};
+		1C0AD5AF1C8931D300604BA4 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				1CD599641C851DD900414002 /* MSTableViewCell.h */,
+				1CD599651C851DD900414002 /* MSTableViewCell.m */,
+				1C0AD5B11C89323200604BA4 /* MSProgressView.h */,
+				1C0AD5B21C89323200604BA4 /* MSProgressView.m */,
+			);
+			name = Views;
+			sourceTree = "<group>";
+		};
+		1C0AD5B01C8931DD00604BA4 /* View Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				1CEA96021C7D5DA60053CD4F /* MSMapViewController.h */,
+				1CEA96031C7D5DA60053CD4F /* MSMapViewController.m */,
+				1CD8573C1C7F826000D16303 /* MSLocationsViewController.h */,
+				1CD8573D1C7F826000D16303 /* MSLocationsViewController.m */,
+				1CD8573F1C7F827400D16303 /* MSFavoritesViewController.h */,
+				1CD857401C7F827400D16303 /* MSFavoritesViewController.m */,
+				1CD857421C7F828400D16303 /* MSSettingsViewController.h */,
+				1CD857431C7F828400D16303 /* MSSettingsViewController.m */,
+				1CDCC4591C815B1D00D93B23 /* MSLocationDetailViewController.h */,
+				1CDCC45A1C815B1D00D93B23 /* MSLocationDetailViewController.m */,
+			);
+			name = "View Controllers";
+			sourceTree = "<group>";
+		};
 		1CEA95D11C7D5D7E0053CD4F = {
 			isa = PBXGroup;
 			children = (
@@ -102,24 +142,13 @@
 		1CEA95DC1C7D5D7E0053CD4F /* MapStack */ = {
 			isa = PBXGroup;
 			children = (
+				1C0AD5B01C8931DD00604BA4 /* View Controllers */,
+				1C0AD5AF1C8931D300604BA4 /* Views */,
+				1C0AD5AE1C8931C900604BA4 /* Models */,
 				1CEA95E01C7D5D7E0053CD4F /* AppDelegate.h */,
 				1CEA95E11C7D5D7E0053CD4F /* AppDelegate.m */,
-				1CEA96021C7D5DA60053CD4F /* MSMapViewController.h */,
-				1CEA96031C7D5DA60053CD4F /* MSMapViewController.m */,
-				1CD8573C1C7F826000D16303 /* MSLocationsViewController.h */,
-				1CD8573D1C7F826000D16303 /* MSLocationsViewController.m */,
-				1CD8573F1C7F827400D16303 /* MSFavoritesViewController.h */,
-				1CD857401C7F827400D16303 /* MSFavoritesViewController.m */,
-				1CD857421C7F828400D16303 /* MSSettingsViewController.h */,
-				1CD857431C7F828400D16303 /* MSSettingsViewController.m */,
-				1CDCC4591C815B1D00D93B23 /* MSLocationDetailViewController.h */,
-				1CDCC45A1C815B1D00D93B23 /* MSLocationDetailViewController.m */,
-				1CDCC44E1C80F34E00D93B23 /* MSLocation.h */,
-				1CDCC44F1C80F34E00D93B23 /* MSLocation.m */,
 				1C47A7661C82657200DA2373 /* MSSingleton.h */,
 				1C47A7671C82657200DA2373 /* MSSingleton.m */,
-				1CD599641C851DD900414002 /* MSTableViewCell.h */,
-				1CD599651C851DD900414002 /* MSTableViewCell.m */,
 				1CDCC4601C8160EC00D93B23 /* MapStackLocations.json */,
 				1CEA95E91C7D5D7E0053CD4F /* Assets.xcassets */,
 				1CEA95EB1C7D5D7E0053CD4F /* LaunchScreen.storyboard */,
@@ -249,6 +278,7 @@
 				1CEA96041C7D5DA60053CD4F /* MSMapViewController.m in Sources */,
 				1CDCC4501C80F34E00D93B23 /* MSLocation.m in Sources */,
 				1CD857441C7F828400D16303 /* MSSettingsViewController.m in Sources */,
+				1C0AD5B31C89323200604BA4 /* MSProgressView.m in Sources */,
 				1CEA95E21C7D5D7E0053CD4F /* AppDelegate.m in Sources */,
 				1CDCC45B1C815B1D00D93B23 /* MSLocationDetailViewController.m in Sources */,
 				1CD599661C851DD900414002 /* MSTableViewCell.m in Sources */,
