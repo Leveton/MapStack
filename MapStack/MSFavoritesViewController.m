@@ -102,7 +102,6 @@
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
-
     /* give enough room for our images */
     return 100.0f;
 }
@@ -138,8 +137,13 @@
      Calling 'reloadData' outside this block would override 'beginUpdates'.
      
      */
+    
     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.3 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+        
         [[self tableView] reloadData];
+        
+        /*post a notification to our settings view controller with the array. Using reverse domain name is conventional. */
+        [[NSNotificationCenter defaultCenter] postNotificationName:@"com.mapstack.favoritesUpdated" object:_dataSource userInfo:nil];
     });
     
 }

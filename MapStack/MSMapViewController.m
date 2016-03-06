@@ -253,7 +253,7 @@
         /* cast to get a reference to the favorites view. Caution! topViewController is the vc currently atop the stack */
         MSFavoritesViewController *favsVC = (MSFavoritesViewController *)[favsNav topViewController];
         [favsVC setDataSource:mutableFavs];
-        
+            
     });
 }
 
