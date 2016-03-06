@@ -10,6 +10,8 @@
 
 @interface MSSettingsViewController : UIViewController
 
-/* an example of a computed property, probably wouldn't have this in the view controller */
-- (NSString *)userFirstName;
+@property (nonatomic, strong, readonly) NSArray *typesArray;
+
+- (void)setTypesArray:(NSArray *)typesArray;
+
 @end

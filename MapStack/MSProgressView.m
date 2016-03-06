@@ -31,9 +31,38 @@
      */
     
     /* Look, we're back in C World. This gets the 'canvas' upon which you can draw on */
-    CGContextRef context = UIGraphicsGetCurrentContext();
+    CGContextRef canvas        = UIGraphicsGetCurrentContext();
     
-    drawLinearGradient(context, self.bounds, [UIColor whiteColor].CGColor, [MSSingleton sharedSingleton].themeColor.CGColor);
+    /* get the device color space */
+    CGColorSpaceRef colorSpace = CGColorSpaceCreateDeviceRGB();
+    
+    /* get the full range of the gradient */
+    CGFloat colorLocations[]   = {0.0, 1.0};
+    
+    /* again with __bridge cast to mix Objective-C with vanilla C */
+    NSArray *colorArray        = @[(__bridge id)[[UIColor whiteColor] CGColor], (__bridge id)[[[MSSingleton sharedSingleton] themeColor] CGColor]];
+    
+    CGGradientRef gradient     = CGGradientCreateWithColors(colorSpace, (__bridge CFArrayRef)colorArray, colorLocations);
+    
+    /*Core Geometry helper functions again. If our view's size was 10x10, we are drawing a line from (5,0) to (5,10) */
+    CGPoint startPoint         = CGPointMake(CGRectGetMidX(rect), CGRectGetMinY(rect));
+    CGPoint endPoint           = CGPointMake(CGRectGetMidX(rect), CGRectGetMaxY(rect));
+    
+    /* cmd+click into these to see what they're doing */
+    CGContextSaveGState(canvas);
+    CGContextAddRect(canvas, rect);
+    
+    /* draw only on the shape passed in */
+    CGContextClip(canvas);
+    
+    /* fills the entire view with the gradient */
+    CGContextDrawLinearGradient(canvas, gradient, startPoint, endPoint, 0);
+    
+    CGContextRestoreGState(canvas);
+    
+    /* This is vanilla C, so we don't have ARC to free up memory when we're done */
+    CGGradientRelease(gradient);
+    CGColorSpaceRelease(colorSpace);
     
 }
 
@@ -61,29 +90,6 @@
 }
 
 #pragma mark - helpers
-
-void drawLinearGradient(CGContextRef context, CGRect rect, CGColorRef startColor, CGColorRef endColor)
-{
-    CGColorSpaceRef colorSpace = CGColorSpaceCreateDeviceRGB();
-    CGFloat locations[] = { 0.0, 1.0 };
-    
-    /* again with __bridge to mix Objective-C with vanilla C */
-    NSArray *colors = @[(__bridge id) startColor, (__bridge id) endColor];
-    
-    CGGradientRef gradient = CGGradientCreateWithColors(colorSpace, (__bridge CFArrayRef) colors, locations);
-    
-    CGPoint startPoint = CGPointMake(CGRectGetMidX(rect), CGRectGetMinY(rect));
-    CGPoint endPoint = CGPointMake(CGRectGetMidX(rect), CGRectGetMaxY(rect));
-    
-    CGContextSaveGState(context);
-    CGContextAddRect(context, rect);
-    CGContextClip(context);
-    CGContextDrawLinearGradient(context, gradient, startPoint, endPoint, 0);
-    CGContextRestoreGState(context);
-    
-    CGGradientRelease(gradient);
-    CGColorSpaceRelease(colorSpace);
-}
 
 /* we've used these before - we'll deal with code duplication later */
 - (CGRect)verticallyCenteredFrameForChildFrame:(CGRect)childRect

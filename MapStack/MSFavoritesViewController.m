@@ -21,7 +21,6 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    
     /* make sure the global theme color has been set */
     if ([MSSingleton sharedSingleton].themeColor) {
         [[self view] setBackgroundColor:[MSSingleton sharedSingleton].themeColor];
@@ -31,13 +30,8 @@
     
 }
 
-- (void)viewWillAppear:(BOOL)animated{
-    [super viewWillAppear:animated];
-}
-
 - (void)viewWillLayoutSubviews{
     [super viewWillLayoutSubviews];
-    
     [[self tableView] setContentInset:UIEdgeInsetsZero];
     /* this does double duty, ensuring that the table is intantiated */
     CGRect tableViewFrame = [[self tableView] frame];
@@ -130,8 +124,23 @@
     [mutableLocs removeObject:location];
     _dataSource                 = mutableLocs;
     
-    /* update the table. We'll make this a better user experience in a future lesson */
-    [[self tableView] reloadData];
+    /* class method to get the row that was tapped, our table has only 1 section so pass 0 */
+    NSIndexPath *indexPath = [NSIndexPath indexPathForRow:cell.tag inSection:0];
+    
+    /* triggers a .3 second animation for all UI related calls in between 'beginUpdates' and 'endUpdates' */
+    [[self tableView] beginUpdates];
+    [[self tableView] deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
+    [[self tableView] endUpdates];
+    
+    /**
+     
+     GCD method to grab the main thread and execute the block of code after .3 seconds (when endUpdates returns).
+     Calling 'reloadData' outside this block would override 'beginUpdates'.
+     
+     */
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.3 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+        [[self tableView] reloadData];
+    });
     
 }
 

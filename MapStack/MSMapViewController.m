@@ -297,6 +297,17 @@
 
 #pragma mark - MKMapViewDelegate
 
+/* fires when the pins get dropped */
+- (void)mapView:(MKMapView *)mapView didAddAnnotationViews:(NSArray<MKAnnotationView *> *)views{
+    
+    /** 
+     this will fire almost immediately on a normal wifi connection (even a 3G connection). To see the spinner in action..
+     Simulator: turn on Network link conditioner and set it to 'Edge'.
+     Device: Go to Developer in Settings and find Network link conditioner and set it to 'edge'.
+     */
+    [self shouldHideProgressView:YES];
+}
+
 #pragma mark - CLLocationManagerDelegate
 
 @end
