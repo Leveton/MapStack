@@ -39,6 +39,8 @@
 		1C0AD5B21C89323200604BA4 /* MSProgressView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSProgressView.m; sourceTree = "<group>"; };
 		1C47A7661C82657200DA2373 /* MSSingleton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSSingleton.h; sourceTree = "<group>"; };
 		1C47A7671C82657200DA2373 /* MSSingleton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSSingleton.m; sourceTree = "<group>"; };
+		1C5D0B461C8CE3D10021979B /* PrefixHeader.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PrefixHeader.pch; sourceTree = "<group>"; };
+		1C5D0B471C8CE6900021979B /* MSConstants.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MSConstants.h; sourceTree = "<group>"; };
 		1CD599641C851DD900414002 /* MSTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSTableViewCell.h; sourceTree = "<group>"; };
 		1CD599651C851DD900414002 /* MSTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSTableViewCell.m; sourceTree = "<group>"; };
 		1CD8573C1C7F826000D16303 /* MSLocationsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSLocationsViewController.h; sourceTree = "<group>"; };
@@ -149,6 +151,8 @@
 				1CEA95E11C7D5D7E0053CD4F /* AppDelegate.m */,
 				1C47A7661C82657200DA2373 /* MSSingleton.h */,
 				1C47A7671C82657200DA2373 /* MSSingleton.m */,
+				1C5D0B471C8CE6900021979B /* MSConstants.h */,
+				1C5D0B461C8CE3D10021979B /* PrefixHeader.pch */,
 				1CDCC4601C8160EC00D93B23 /* MapStackLocations.json */,
 				1CEA95E91C7D5D7E0053CD4F /* Assets.xcassets */,
 				1CEA95EB1C7D5D7E0053CD4F /* LaunchScreen.storyboard */,
@@ -403,6 +407,8 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = MapStack/PrefixHeader.pch;
 				INFOPLIST_FILE = MapStack/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -415,6 +421,8 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = MapStack/PrefixHeader.pch;
 				INFOPLIST_FILE = MapStack/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";

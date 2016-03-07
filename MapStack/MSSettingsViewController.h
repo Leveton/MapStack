@@ -10,8 +10,8 @@
 
 @interface MSSettingsViewController : UIViewController
 
-@property (nonatomic, strong, readonly) NSArray *typesArray;
+@property (nonatomic, strong) NSArray *locations;
 
-- (void)setTypesArray:(NSArray *)typesArray;
+- (void)setLocations:(NSArray *)locations;
 
 @end

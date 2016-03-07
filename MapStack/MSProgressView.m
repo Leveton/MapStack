@@ -7,7 +7,6 @@
 //
 
 #import "MSProgressView.h"
-#import "MSSingleton.h"
 
 /* we don't need an interface declaration if we don't have any private properties, methods and don't conform to any protocols */
 

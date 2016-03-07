@@ -8,7 +8,6 @@
 
 #import "MSLocationDetailViewController.h"
 #import "AppDelegate.h"
-#import "MSSingleton.h"
 
 #define kViewMargin           (10.0f)
 #define kImageHeight          (245.0f)
@@ -287,9 +286,14 @@
     if (_isLocationFavorited){
         [mutableFavs removeObject:locationId];
         [delegate removeLocationFromFavoritesWithLocation:_location];
+        
+        [[NSNotificationCenter defaultCenter] postNotificationName:@"com.mapstack.locationUnfavorited" object:_location userInfo:nil];
+        
     }else{
         [mutableFavs addObject:locationId];
         [delegate addLocationToFavoritesWithLocation:_location];
+        
+        [[NSNotificationCenter defaultCenter] postNotificationName:@"com.mapstack.locationFavorited" object:_location userInfo:nil];
     }
     
     /* standard hack to prevent duplicates, by filtering the array through a set, all duplicates are removed because set elements must be unique */

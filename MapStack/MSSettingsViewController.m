@@ -7,7 +7,6 @@
 //
 
 #import "MSSettingsViewController.h"
-#import "MSSingleton.h"
 
 typedef enum NSInteger {
     kThemeColor,
@@ -20,6 +19,8 @@ typedef enum NSInteger {
 @property (nonatomic, strong, nullable) UITableView *tableView;
 @property (nonatomic, strong, nonnull) NSArray      *colorsArray;
 @property (nonatomic, strong, nonnull) NSArray      *distancesArray;
+@property (nonatomic, strong, nonnull) NSArray      *typesArray;
+@property (nonatomic, strong, nonnull) NSDictionary *favoritesOrderDictionary;
 @end
 
 @implementation MSSettingsViewController
@@ -28,7 +29,9 @@ typedef enum NSInteger {
 - (id)init{
     self = [super init];
     if (self) {
-        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(favoritesUpdated:) name:@"com.mapstack.favoritesUpdated" object:nil];
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(favoriteAdded:) name:@"com.mapstack.locationFavorited" object:nil];
+        
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(favoriteRemoved:) name:@"com.mapstack.locationUnfavorited" object:nil];
     }
     return self;
 }
@@ -61,7 +64,8 @@ typedef enum NSInteger {
 
 /* override dealloc to remove the listener. This prevents a nil object from receiving a message */
 - (void)dealloc{
-    [[NSNotificationCenter defaultCenter] removeObserver:@"com.mapstack.favoritesUpdated"];
+    [[NSNotificationCenter defaultCenter] removeObserver:@"com.mapstack.locationUnfavorited"];
+    [[NSNotificationCenter defaultCenter] removeObserver:@"com.mapstack.locationFavorited"];
 }
 
 #pragma mark - getters
@@ -74,6 +78,10 @@ typedef enum NSInteger {
         
         [_tableView setDelegate:self];
         [_tableView setDataSource:self];
+        
+        /* set to yes to allow themes and favorites to be tapped even though we set their 'allowEditing' to NO in the delegate */
+        [_tableView setAllowsSelectionDuringEditing:YES];
+        
         [[self view] addSubview:_tableView];
     }
     return _tableView;
@@ -81,11 +89,29 @@ typedef enum NSInteger {
 
 - (NSArray *)colorsArray{
     if (!_colorsArray){
-        _colorsArray = [[NSArray alloc] initWithObjects:@"blue color", @"green color", @"orange color", nil];
+        _colorsArray = [[NSArray alloc] initWithObjects:@"blue color", @"green color", @"red color", nil];
     }
     return _colorsArray;
 }
 
+- (NSDictionary *)favoritesOrderDictionary{
+    if (!_favoritesOrderDictionary){
+        _favoritesOrderDictionary = [self initialOrderDictionary];
+    }
+    return _favoritesOrderDictionary;
+}
+
+- (UIColor *)blueColor{
+    return [UIColor colorWithRed:74.0/255.0 green:144.0/255.0 blue:226.0/255.0 alpha:1.0];
+}
+
+- (UIColor *)greenColor{
+    return [UIColor colorWithRed:74.0/255.0 green:226.0/255.0 blue:156.0/255.0 alpha:1.0];
+}
+
+- (UIColor *)redColor{
+    return [UIColor colorWithRed:226.0/255.0 green:80.0/255.0 blue:74.0/255.0 alpha:1.0];
+}
 
 - (NSDictionary *)sectionTitleDictionary {
     
@@ -106,7 +132,20 @@ typedef enum NSInteger {
              @"5" : NSLocalizedString(@"fifty miles", nil)};
 }
 
+- (NSDictionary *)initialOrderDictionary {
+    
+    return @{
+             @"Random"     : @(kFavoriteTypeRandom),
+             @"Restaurant" : @(kFavoriteTypeRestaurant),
+             @"School"     : @(kFavoriteTypeSchool),
+             @"StartUp"    : @(kFavoriteTypeStartUp),
+             @"Hospital"   : @(kFavoriteTypeHospital),};
+}
+
 - (UITableViewCell *)colorsCellForIndexPath:(NSIndexPath *)indexPath{
+    
+    /* we can use a reusable cell or a simple cell like in distanceCellForIndex */
+    
     static NSString *CellIdentifier = @"colorsCell";
     UITableViewCell *cell = [[self tableView] dequeueReusableCellWithIdentifier:CellIdentifier];
     
@@ -136,19 +175,74 @@ typedef enum NSInteger {
     return cell;
 }
 
+- (UITableViewCell *)typeCellForIndexPath:(NSIndexPath *)indexPath{
+    
+    /*convenience method on UIView for alloc and init */
+    UITableViewCell *cell = [UITableViewCell new];
+    
+    /* allow cell to be reoredered */
+    [cell setShowsReorderControl:YES];
+    
+    [[cell textLabel] setText:[_typesArray objectAtIndex:indexPath.row]];
+    
+    return cell;
+}
+
 #pragma mark - UITableViewDataSource
+
+/* setting UITableViewCellEditingStyleNone prevents cells from displaying a red button for deletion */
+- (UITableViewCellEditingStyle)tableView:(UITableView *)tableView editingStyleForRowAtIndexPath:(NSIndexPath *)indexPath {
+    return UITableViewCellEditingStyleNone;
+}
+
+- (void)hideAllChecksForIndexPath:(NSIndexPath *)indexPath{
+    
+    for (NSInteger i = 0; i < [self.tableView numberOfRowsInSection:indexPath.section]; i++) {
+        UITableViewCell *cell = [[self tableView] cellForRowAtIndexPath:[NSIndexPath indexPathForRow:i inSection:indexPath.section]];
+        [[cell accessoryView] setHidden:YES];
+    }
+}
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     
-    
     /* this flashes the cell upon tap which is good for UX */
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
+    UITableViewCell *cell = [[self tableView] cellForRowAtIndexPath:indexPath];
     
-    if (indexPath.section == kThemeColor || indexPath.section == kDistanceFilter) {
+    if (indexPath.section == kThemeColor) {
         
-        UITableViewCell *cell = [[self tableView] cellForRowAtIndexPath:indexPath];
+        /* hide all checks */
+        [self hideAllChecksForIndexPath:indexPath];
         
         /*toggle the cell's right-hand view hidden */
+        [[cell accessoryView] setHidden:![[cell accessoryView] isHidden]];
+        
+        switch (indexPath.row) {
+            case 0:
+                [MSSingleton sharedSingleton].themeColor = [self blueColor];
+                break;
+            case 1:
+                [MSSingleton sharedSingleton].themeColor = [self greenColor];
+                break;
+            case 2:
+                [MSSingleton sharedSingleton].themeColor = [self redColor];
+                break;
+                
+            default:
+                [MSSingleton sharedSingleton].themeColor = [self blueColor];
+                break;
+        }
+        
+        [[self view] setBackgroundColor:[MSSingleton sharedSingleton].themeColor];
+        /* a perfect example of when to broadcast a notification */
+        [[NSNotificationCenter defaultCenter] postNotificationName:@"com.mapstack.themeColorWasChanged" object:nil userInfo:nil];
+        
+        /* so that the header colors are reset */
+        [[self tableView] reloadData];
+    }
+    
+    if (indexPath.section == kDistanceFilter) {
+        
         [[cell accessoryView] setHidden:![[cell accessoryView] isHidden]];
     }
 }
@@ -188,6 +282,10 @@ typedef enum NSInteger {
         return  [self distanceCellForIndexPath:indexPath];
     }
     
+    if (indexPath.section == kTypeFilter) {
+        return  [self typeCellForIndexPath:indexPath];
+    }
+    
     return [UITableViewCell new];
 }
 
@@ -204,23 +302,120 @@ typedef enum NSInteger {
     
     [label setText:value];
     [view addSubview:label];
+    
+    if (section == kTypeFilter){
+        UIButton *editButton = [UIButton buttonWithType:UIButtonTypeSystem];
+        CGRect editFrame     = [view frame];
+        editFrame.origin.x   = CGRectGetWidth([[self view] frame]) - 40.0f;
+        editFrame.size.width = 40.0f;
+        [editButton setFrame:editFrame];
+        [editButton.titleLabel setTextAlignment:NSTextAlignmentCenter];
+        [editButton setTitle:NSLocalizedString(@"Edit", nil) forState:UIControlStateNormal];
+        [editButton.titleLabel setFont:[UIFont fontWithName:@"Chalkduster" size:10]];
+        [editButton setTitleColor:[MSSingleton sharedSingleton].themeColor forState:UIControlStateNormal];
+        
+        /* the color for when the finger is actually on the button */
+        [editButton setTitleColor:[UIColor blueColor] forState:UIControlStateHighlighted];
+        
+        [editButton addTarget:self action:@selector(didTapEditTypes:) forControlEvents:UIControlEventTouchUpInside];
+        [[editButton layer] setZPosition:2.0];
+        [editButton setBackgroundColor:[UIColor darkGrayColor]];
+        [view addSubview:editButton];
+    }
+    
     return view;
+}
+
+/* we only want cells in our 'type' group to be movable so we must implement this delegate methdod */
+- (BOOL)tableView:(UITableView *)tableView canMoveRowAtIndexPath:(NSIndexPath *)indexPath{
+    if (indexPath.section == kTypeFilter) {
+        return YES;
+    }
+    return NO;
+}
+
+- (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath {
+    if (indexPath.section == kTypeFilter) {
+        return YES;
+    }
+    
+    return NO;
+}
+
+/* gets called after the rows have been reordered */
+- (void)tableView:(UITableView *)tableView moveRowAtIndexPath:(NSIndexPath *)sourceIndexPath toIndexPath:(NSIndexPath *)destinationIndexPath{
+    
+    [MSSingleton sharedSingleton].areFavoriteTypesOrdered = YES;
+    
+    /*update our data source to refect the change */
+    NSMutableArray *mutableTypes = [[NSMutableArray alloc]initWithArray:_typesArray];
+    NSString *sourceString       = [_typesArray objectAtIndex:sourceIndexPath.row];
+    [mutableTypes removeObjectAtIndex:sourceIndexPath.row];
+    [mutableTypes insertObject:sourceString atIndex:destinationIndexPath.row];
+    _typesArray                  = mutableTypes;
 }
 
 #pragma mark - setters
 
+/* setters don't have to be public although they don't offer any real advantage when private other than code clarity */
 - (void)setTypesArray:(NSArray *)typesArray{
     _typesArray = typesArray;
+    
+    /* data source for the types group is ready */
     [[self tableView] reloadData];
+}
+
+- (void)setLocations:(NSArray *)locations{
+    _locations = locations;
+    
+    /* convenience init for array that will store the type strings */
+    __block NSMutableArray *typeStringsArray = [NSMutableArray array];
+    [_locations enumerateObjectsUsingBlock:^(MSLocation *item, NSUInteger idx, BOOL *stop) {
+        [typeStringsArray addObject:[item type]];
+    }];
+    
+    /*filter out duplicate strings with a set */
+    NSMutableSet *typesSet = [NSMutableSet setWithArray:typeStringsArray];
+    [self setTypesArray:[typesSet allObjects]];
+    
 }
 
 #pragma mark - selectors
 
-- (void)favoritesUpdated:(NSNotification *)note{
+- (void)didTapEditTypes:(id)sender{
+    [[self tableView] setEditing:![[self tableView] isEditing] animated:YES];
+}
+
+- (void)favoriteAdded:(NSNotification *)note{
     
     if ([note object]) {
-        [self setTypesArray:[note object]];
+        NSMutableArray *locations = [[NSMutableArray alloc]initWithArray:_typesArray];
+        MSLocation *location = [note object];
+        [locations addObject:[location type]];
+        
+        /*filter out duplicate strings with a set */
+        NSMutableSet *typesSet = [NSMutableSet setWithArray:locations];
+        [self setTypesArray:[typesSet allObjects]];
     }
 }
+
+- (void)favoriteRemoved:(NSNotification *)note{
+    
+    if ([note object]) {
+        
+        NSMutableArray *locations = [[NSMutableArray alloc]initWithArray:_typesArray];
+        MSLocation *location = [note object];
+        
+        /* check for existence or you'll crash */
+        if ([locations containsObject:[location type]]) {
+            [locations removeObject:[location type]];
+            
+            /*filter out duplicate strings with a set */
+            NSMutableSet *typesSet = [NSMutableSet setWithArray:locations];
+            [self setTypesArray:[typesSet allObjects]];
+        }
+    }
+}
+
 
 @end

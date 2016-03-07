@@ -6,8 +6,6 @@
 //  Copyright © 2016 Mike Leveton. All rights reserved.
 //
 
-#import "MSLocation.h"
-#import "MSSingleton.h"
 #import "MSLocationsViewController.h"
 #import "MSLocationDetailViewController.h"
 
@@ -20,6 +18,8 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(appThemeColorChanged:) name:@"com.mapstack.themeColorWasChanged" object:nil];
     
     /* make sure the global theme color has been set */
     if ([MSSingleton sharedSingleton].themeColor) {
@@ -122,6 +122,13 @@
     [vc setIsViewPresented:YES];
     [vc setLocation:location];
     [self presentViewController:vc animated:YES completion:nil];
+}
+
+#pragma mark - selectors
+
+- (void)appThemeColorChanged:(NSNotification *)note{
+    
+    [[self view] setBackgroundColor:[MSSingleton sharedSingleton].themeColor];
 }
 
 @end

@@ -6,10 +6,9 @@
 //  Copyright © 2016 Mike Leveton. All rights reserved.
 //
 
-#import "MSLocation.h"
-#import "MSSingleton.h"
 #import "MSProgressView.h"
 #import "MSMapViewController.h"
+#import "MSSettingsViewController.h"
 #import "MSLocationsViewController.h"
 #import "MSFavoritesViewController.h"
 
@@ -34,7 +33,7 @@
     [super viewDidLoad];
     
     /* listen for a notification that the app's theme color changed */
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(themeColorChanged:) name:@"com.mapstack.userDidChangeTheme" object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(appThemeColorChanged:) name:@"com.mapstack.themeColorWasChanged" object:nil];
     
     /* make sure the global theme color has been set */
     if ([MSSingleton sharedSingleton].themeColor) {
@@ -153,10 +152,6 @@
 
 #pragma mark - selectors
 
-/* implement the selector or your app will crash if this object receives a userDidChangeTheme notification */
-- (void)themeColorChanged:(NSNotification *)notification{
-}
-
 - (void)populateMap{
     
     [self shouldHideProgressView:NO];
@@ -253,6 +248,9 @@
         /* cast to get a reference to the favorites view. Caution! topViewController is the vc currently atop the stack */
         MSFavoritesViewController *favsVC = (MSFavoritesViewController *)[favsNav topViewController];
         [favsVC setDataSource:mutableFavs];
+        
+        MSSettingsViewController *settingsVC = [viewControllers objectAtIndex:3];
+        [settingsVC setLocations:mutableFavs];
             
     });
 }
@@ -308,6 +306,9 @@
     [self shouldHideProgressView:YES];
 }
 
-#pragma mark - CLLocationManagerDelegate
+- (void)appThemeColorChanged:(NSNotification *)note{
+    
+    [[self view] setBackgroundColor:[MSSingleton sharedSingleton].themeColor];
+}
 
 @end

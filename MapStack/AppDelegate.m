@@ -11,7 +11,6 @@
 #import "MSLocationsViewController.h"
 #import "MSFavoritesViewController.h"
 #import "MSSettingsViewController.h"
-#import "MSSingleton.h"
 
 @interface AppDelegate ()
 @property (nonatomic, strong, nullable) MSMapViewController         *mapViewController;

@@ -9,8 +9,6 @@
 #import "MSLocationDetailViewController.h"
 #import "MSFavoritesViewController.h"
 #import "MSTableViewCell.h"
-#import "MSSingleton.h"
-#import "MSLocation.h"
 
 #define kTableViewPadding    (20.0f)
 @interface MSFavoritesViewController ()<UITableViewDataSource, UITableViewDelegate, MSTableViewCellDelegate>
@@ -21,6 +19,9 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(appThemeColorChanged:) name:@"com.mapstack.themeColorWasChanged" object:nil];
+    
     /* make sure the global theme color has been set */
     if ([MSSingleton sharedSingleton].themeColor) {
         [[self view] setBackgroundColor:[MSSingleton sharedSingleton].themeColor];
@@ -143,7 +144,7 @@
         [[self tableView] reloadData];
         
         /*post a notification to our settings view controller with the array. Using reverse domain name is conventional. */
-        [[NSNotificationCenter defaultCenter] postNotificationName:@"com.mapstack.favoritesUpdated" object:_dataSource userInfo:nil];
+        [[NSNotificationCenter defaultCenter] postNotificationName:@"com.mapstack.locationUnfavorited" object:location userInfo:nil];
     });
     
 }
@@ -157,6 +158,11 @@
     [vc setIsViewPresented:NO];
     [vc setLocation:location];
     [[self navigationController] pushViewController:vc animated:YES];
+}
+
+- (void)appThemeColorChanged:(NSNotification *)note{
+    
+    [[self view] setBackgroundColor:[MSSingleton sharedSingleton].themeColor];
 }
 
 @end

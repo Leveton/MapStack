@@ -11,7 +11,11 @@
 
 @interface MSSingleton : NSObject
 
+/* a global that's an object should be checked for existence before use */
 @property (nonatomic, strong) UIColor *themeColor;
+
+/* globals that are primitives are preferred */
+@property (nonatomic, assign) BOOL     areFavoriteTypesOrdered;
 
 + (MSSingleton *)sharedSingleton;
 @end

@@ -7,7 +7,6 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "MSLocation.h"
 
 @protocol MSTableViewCellDelegate;
 
