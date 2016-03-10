@@ -12,6 +12,7 @@
 #define kTableViewPadding    (20.0f)
 @interface MSLocationsViewController ()<UITableViewDelegate, UITableViewDataSource>
 @property (nonatomic, strong) UITableView *tableView;
+@property (nonatomic, strong) NSArray     *copiedDataSource;
 @end
 
 @implementation MSLocationsViewController
@@ -61,15 +62,21 @@
     return _tableView;
 }
 
-#pragma mark - setters
+#pragma mark - setters™
 
 - (void)setDataSource:(NSArray *)dataSource{
-    _dataSource = dataSource;
+    _dataSource       = dataSource;
+    _copiedDataSource = [_dataSource copy];
+    [self sortByDistance];
     
-    /* sort by distance from highest to lowest */
-    NSSortDescriptor *sortDescriptor = [NSSortDescriptor sortDescriptorWithKey:@"distance"
-                                                                     ascending:NO];
-    _dataSource = [_dataSource sortedArrayUsingDescriptors:@[sortDescriptor]];
+    [[self tableView] reloadData];
+}
+
+- (void)setRange:(MSRange *)range{
+    
+    _range = range;
+    
+    [self sortByDistance];
     
     [[self tableView] reloadData];
 }
@@ -109,7 +116,9 @@
     }
     
     [[cell textLabel] setText:[location title]];
-    [[cell detailTextLabel] setText:[NSString stringWithFormat:@"distance: %f", location.distance]];
+    
+    /* format the float as an int so that users don't see six decimal places */
+    [[cell detailTextLabel] setText:[NSString stringWithFormat:@"distance: %ld meters", (long)location.distance]];
     
     return cell;
 }
@@ -129,6 +138,22 @@
 - (void)appThemeColorChanged:(NSNotification *)note{
     
     [[self view] setBackgroundColor:[MSSingleton sharedSingleton].themeColor];
+}
+
+- (void)sortByDistance{
+    
+    if (_range){
+        _dataSource = [_copiedDataSource copy];
+        /* sort by range as selected in settings */
+        NSPredicate *rangePredicate = [NSPredicate predicateWithFormat: @"distance BETWEEN %@", @[@(_range.startPoint), @(_range.endPoint)]];
+        _dataSource                 = [_dataSource filteredArrayUsingPredicate:rangePredicate];
+        
+    }else{
+        /* sort by distance from highest to lowest */
+        NSSortDescriptor *sortDescriptor = [NSSortDescriptor sortDescriptorWithKey:@"distance"
+                                                                         ascending:NO];
+        _dataSource = [_dataSource sortedArrayUsingDescriptors:@[sortDescriptor]];
+    }
 }
 
 @end

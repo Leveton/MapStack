@@ -45,7 +45,8 @@
     /* get the user's current location */
     [[self manager] startUpdatingLocation];
     
-    MKCoordinateRegion adjustedRegion = [[self map] regionThatFits:MKCoordinateRegionMakeWithDistance([self centerPoint], 1600, 1600)];
+    /* 1 mile radius */
+    MKCoordinateRegion adjustedRegion = [[self map] regionThatFits:MKCoordinateRegionMakeWithDistance([self centerPoint], 1609.34, 1609.34)];
     [[self map] setRegion:adjustedRegion animated:YES];
     
 }
@@ -270,7 +271,6 @@
     [location setType:[dict objectForKey:@"type"]];
     [location setCoordinate:coordinate];
     [location setDistance:[[dict objectForKey:@"distance"] floatValue]];
-    
     UIImage *image = [UIImage imageNamed:[dict objectForKey:@"image"]];
     [location setLocationImage:image];
     

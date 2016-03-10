@@ -12,7 +12,8 @@
 
 #define kTableViewPadding    (20.0f)
 @interface MSFavoritesViewController ()<UITableViewDataSource, UITableViewDelegate, MSTableViewCellDelegate>
-@property (nonatomic, strong) UITableView *tableView;
+@property (nonatomic, strong) UITableView         *tableView;
+@property (nonatomic, strong) NSMutableDictionary *favoritesOrderDictionary;
 @end
 
 @implementation MSFavoritesViewController
@@ -21,6 +22,7 @@
     [super viewDidLoad];
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(appThemeColorChanged:) name:@"com.mapstack.themeColorWasChanged" object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(favoritesReordered:) name:@"com.mapstack.favoritesOrderWasRearranged" object:nil];
     
     /* make sure the global theme color has been set */
     if ([MSSingleton sharedSingleton].themeColor) {
@@ -50,10 +52,15 @@
     
 }
 
-
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+
+/* override dealloc to remove the listener. This prevents a nil object from receiving a message */
+- (void)dealloc{
+    [[NSNotificationCenter defaultCenter] removeObserver:@"com.mapstack.themeColorWasChanged"];
+    [[NSNotificationCenter defaultCenter] removeObserver:@"com.mapstack.favoritesOrderWasRearranged"];
 }
 
 #pragma mark - getters
@@ -72,11 +79,49 @@
     return _tableView;
 }
 
+- (NSMutableDictionary *)favoritesOrderDictionary{
+    if (!_favoritesOrderDictionary){
+        
+        /* extensive use of syntactic sugar here */
+        NSArray *keys    = @[@"Hospital", @"School", @"StartUp", @"Random", @"Restaurant"];
+        NSArray *objects = @[@(0), @(1), @(2), @(3), @(4)];
+        _favoritesOrderDictionary = [[NSMutableDictionary alloc]initWithObjects:objects forKeys:keys];
+    }
+    return _favoritesOrderDictionary;
+}
+
+
 #pragma mark - setters
 
 - (void)setDataSource:(NSArray *)dataSource{
     _dataSource = dataSource;
+    [self sortDataByOrder];
     [[self tableView] reloadData];
+}
+
+- (void)setFavoritesOrder:(NSArray *)favoritesOrder{
+    _favoritesOrder = favoritesOrder;
+    
+    [_favoritesOrder enumerateObjectsUsingBlock:^(NSString *item, NSUInteger idx, BOOL *stop) {
+        [[self favoritesOrderDictionary] setObject:@(idx) forKey:item];
+    }];
+    
+    [self sortDataByOrder];
+    [[self tableView] reloadData];
+}
+
+- (void)sortDataByOrder{
+    
+    [_dataSource enumerateObjectsUsingBlock:^(MSLocation *item, NSUInteger idx, BOOL *stop) {
+        
+        NSNumber *order = [[self favoritesOrderDictionary] objectForKey:[item type]];
+        [item setFavoritesOrder:[order integerValue]];
+    }];
+    
+    NSSortDescriptor *sortDescriptor = [NSSortDescriptor sortDescriptorWithKey:@"favoritesOrder"
+                                                                     ascending:YES];
+    
+    _dataSource = [_dataSource sortedArrayUsingDescriptors:@[sortDescriptor]];
 }
 
 #pragma mark - UITableViewDelegate
@@ -143,8 +188,6 @@
         
         [[self tableView] reloadData];
         
-        /*post a notification to our settings view controller with the array. Using reverse domain name is conventional. */
-        [[NSNotificationCenter defaultCenter] postNotificationName:@"com.mapstack.locationUnfavorited" object:location userInfo:nil];
     });
     
 }
@@ -163,6 +206,12 @@
 - (void)appThemeColorChanged:(NSNotification *)note{
     
     [[self view] setBackgroundColor:[MSSingleton sharedSingleton].themeColor];
+}
+
+- (void)favoritesReordered:(NSNotification *)note{
+    if ([note object]){
+        [self setFavoritesOrder:[note object]];
+    }
 }
 
 @end

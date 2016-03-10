@@ -11,7 +11,9 @@
 @interface MSFavoritesViewController : UIViewController
 
 @property (nonatomic, strong, readonly) NSArray *dataSource;
+@property (nonatomic, strong, readonly) NSArray *favoritesOrder;
 
 - (void)setDataSource:(NSArray *)dataSource;
+- (void)setFavoritesOrder:(NSArray *)favoritesOrder;
 
 @end

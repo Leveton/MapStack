@@ -228,7 +228,7 @@
 - (void)setLocation:(MSLocation *)location{
     _location = location;
     [[self label] setText:[_location title]];
-    [[self distanceLabel] setText:[NSString stringWithFormat:@"distance: %ld", (long)[_location distance]]];
+    [[self distanceLabel] setText:[NSString stringWithFormat:@"distance: %ld meters", (long)[_location distance]]];
     [[self imageView] setImage:[_location locationImage]];
 }
 
@@ -287,13 +287,9 @@
         [mutableFavs removeObject:locationId];
         [delegate removeLocationFromFavoritesWithLocation:_location];
         
-        [[NSNotificationCenter defaultCenter] postNotificationName:@"com.mapstack.locationUnfavorited" object:_location userInfo:nil];
-        
     }else{
         [mutableFavs addObject:locationId];
         [delegate addLocationToFavoritesWithLocation:_location];
-        
-        [[NSNotificationCenter defaultCenter] postNotificationName:@"com.mapstack.locationFavorited" object:_location userInfo:nil];
     }
     
     /* standard hack to prevent duplicates, by filtering the array through a set, all duplicates are removed because set elements must be unique */

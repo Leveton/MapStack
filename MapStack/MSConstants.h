@@ -9,12 +9,6 @@
 #ifndef MSConstants_h
 #define MSConstants_h
 
-typedef enum : NSUInteger {
-    kFavoriteTypeRandom,
-    kFavoriteTypeRestaurant,
-    kFavoriteTypeSchool,
-    kFavoriteTypeStartUp,
-    kFavoriteTypeHospital
-} FavoritesOrder;
+#define kThemeColorChangedNotification   @"com.mapstack.themeColorChanged"
 
 #endif /* MSConstants_h */

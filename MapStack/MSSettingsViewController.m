@@ -6,7 +6,9 @@
 //  Copyright © 2016 Mike Leveton. All rights reserved.
 //
 
+#import "MSLocationsViewController.h"
 #import "MSSettingsViewController.h"
+#import "MSRange.h"
 
 typedef enum NSInteger {
     kThemeColor,
@@ -20,21 +22,9 @@ typedef enum NSInteger {
 @property (nonatomic, strong, nonnull) NSArray      *colorsArray;
 @property (nonatomic, strong, nonnull) NSArray      *distancesArray;
 @property (nonatomic, strong, nonnull) NSArray      *typesArray;
-@property (nonatomic, strong, nonnull) NSDictionary *favoritesOrderDictionary;
 @end
 
 @implementation MSSettingsViewController
-
-/* we override init here so our instance can listen for a notification that a favorite has been updated */
-- (id)init{
-    self = [super init];
-    if (self) {
-        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(favoriteAdded:) name:@"com.mapstack.locationFavorited" object:nil];
-        
-        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(favoriteRemoved:) name:@"com.mapstack.locationUnfavorited" object:nil];
-    }
-    return self;
-}
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -62,12 +52,6 @@ typedef enum NSInteger {
     // Dispose of any resources that can be recreated.
 }
 
-/* override dealloc to remove the listener. This prevents a nil object from receiving a message */
-- (void)dealloc{
-    [[NSNotificationCenter defaultCenter] removeObserver:@"com.mapstack.locationUnfavorited"];
-    [[NSNotificationCenter defaultCenter] removeObserver:@"com.mapstack.locationFavorited"];
-}
-
 #pragma mark - getters
 
 - (UITableView *)tableView{
@@ -89,16 +73,16 @@ typedef enum NSInteger {
 
 - (NSArray *)colorsArray{
     if (!_colorsArray){
-        _colorsArray = [[NSArray alloc] initWithObjects:@"blue color", @"green color", @"red color", nil];
+        _colorsArray = [[NSArray alloc] initWithObjects:NSLocalizedString(@"blue color",nil), NSLocalizedString(@"green color", nil), NSLocalizedString(@"red color", nil), nil];
     }
     return _colorsArray;
 }
 
-- (NSDictionary *)favoritesOrderDictionary{
-    if (!_favoritesOrderDictionary){
-        _favoritesOrderDictionary = [self initialOrderDictionary];
+- (NSArray *)typesArray{
+    if (!_typesArray){
+        _typesArray = [[NSArray alloc] initWithObjects:@"Hospital", @"School", @"StartUp", @"Random", @"Restaurant", nil];
     }
-    return _favoritesOrderDictionary;
+    return _typesArray;
 }
 
 - (UIColor *)blueColor{
@@ -117,34 +101,23 @@ typedef enum NSInteger {
     
     return @{
              @"0" : NSLocalizedString(@"App Theme Color", nil),
-             @"1" : NSLocalizedString(@"Locations within range", nil),
-             @"2" : NSLocalizedString(@"Rearrange favorite types", nil)};
+             @"1" : NSLocalizedString(@"Rearrange favorite types", nil),
+             @"2" : NSLocalizedString(@"Set Locations range", nil)};
 }
 
 - (NSDictionary *)locationRangeDictionary {
     
     return @{
-             @"0" : NSLocalizedString(@"one mile", nil),
-             @"1" : NSLocalizedString(@"two miles", nil),
-             @"2" : NSLocalizedString(@"five miles", nil),
-             @"3" : NSLocalizedString(@"ten miles", nil),
-             @"4" : NSLocalizedString(@"twenty miles", nil),
-             @"5" : NSLocalizedString(@"fifty miles", nil)};
-}
-
-- (NSDictionary *)initialOrderDictionary {
-    
-    return @{
-             @"Random"     : @(kFavoriteTypeRandom),
-             @"Restaurant" : @(kFavoriteTypeRestaurant),
-             @"School"     : @(kFavoriteTypeSchool),
-             @"StartUp"    : @(kFavoriteTypeStartUp),
-             @"Hospital"   : @(kFavoriteTypeHospital),};
+             @"0" : NSLocalizedString(@"between 0 and 300 meters", nil),
+             @"1" : NSLocalizedString(@"between 300 and 750 meters", nil),
+             @"2" : NSLocalizedString(@"between 750 and 3000 meters", nil),
+             @"3" : NSLocalizedString(@"between 3000 and 10000 meters", nil),
+             @"4" : NSLocalizedString(@"no range", nil)};
 }
 
 - (UITableViewCell *)colorsCellForIndexPath:(NSIndexPath *)indexPath{
     
-    /* we can use a reusable cell or a simple cell like in distanceCellForIndex */
+    /* Even though there aren't many cells, we can hook into whether a cell is just allocated and set some things there (e.g. our accessory label) */
     
     static NSString *CellIdentifier = @"colorsCell";
     UITableViewCell *cell = [[self tableView] dequeueReusableCellWithIdentifier:CellIdentifier];
@@ -152,7 +125,7 @@ typedef enum NSInteger {
     if (!cell){
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
         UIImageView *imageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"check"]];
-        [imageView setHidden:YES];
+        [imageView setHidden:indexPath.row > 0];
         [cell setAccessoryView:imageView];
     }
     
@@ -163,27 +136,34 @@ typedef enum NSInteger {
 
 - (UITableViewCell *)distanceCellForIndexPath:(NSIndexPath *)indexPath{
     
-    /*convenience method on UIView for alloc and init */
-    UITableViewCell *cell = [UITableViewCell new];
+    static NSString *CellIdentifier = @"distanceCell";
+    UITableViewCell *cell = [[self tableView] dequeueReusableCellWithIdentifier:CellIdentifier];
     
-    UIImageView *imageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"check"]];
-    [imageView setHidden:YES];
-    [cell setAccessoryView:imageView];
+    if (!cell){
+        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
+        UIImageView *imageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"check"]];
+        [imageView setHidden:YES];
+        [cell setAccessoryView:imageView];
+    }
     
     [[cell textLabel] setText:[[self locationRangeDictionary] objectForKey:[@(indexPath.row) stringValue]]];
     
     return cell;
 }
 
+
 - (UITableViewCell *)typeCellForIndexPath:(NSIndexPath *)indexPath{
     
     /*convenience method on UIView for alloc and init */
     UITableViewCell *cell = [UITableViewCell new];
     
+    /*prevent highlight upon tap */
+    [cell setSelectionStyle:UITableViewCellSelectionStyleNone];
+    
     /* allow cell to be reoredered */
     [cell setShowsReorderControl:YES];
     
-    [[cell textLabel] setText:[_typesArray objectAtIndex:indexPath.row]];
+    [[cell textLabel] setText:[[self typesArray] objectAtIndex:indexPath.row]];
     
     return cell;
 }
@@ -243,7 +223,12 @@ typedef enum NSInteger {
     
     if (indexPath.section == kDistanceFilter) {
         
+        /* hide all checks */
+        [self hideAllChecksForIndexPath:indexPath];
         [[cell accessoryView] setHidden:![[cell accessoryView] isHidden]];
+        
+        MSLocationsViewController *vc = [[[self tabBarController] viewControllers] objectAtIndex:1];
+        [vc setRange:[self getRangeFromIndexPath:indexPath]];
     }
 }
 
@@ -253,7 +238,7 @@ typedef enum NSInteger {
         return [[self colorsArray] count];
     }
     if (section == kTypeFilter) {
-        return [_typesArray count];
+        return [[self typesArray] count];
     }
     if (section == kDistanceFilter) {
         return [[[self locationRangeDictionary] allKeys] count];
@@ -345,25 +330,20 @@ typedef enum NSInteger {
 /* gets called after the rows have been reordered */
 - (void)tableView:(UITableView *)tableView moveRowAtIndexPath:(NSIndexPath *)sourceIndexPath toIndexPath:(NSIndexPath *)destinationIndexPath{
     
-    [MSSingleton sharedSingleton].areFavoriteTypesOrdered = YES;
+    //[MSSingleton sharedSingleton].areFavoriteTypesOrdered = YES;
     
     /*update our data source to refect the change */
-    NSMutableArray *mutableTypes = [[NSMutableArray alloc]initWithArray:_typesArray];
-    NSString *sourceString       = [_typesArray objectAtIndex:sourceIndexPath.row];
+    NSMutableArray *mutableTypes = [[NSMutableArray alloc]initWithArray:[self typesArray]];
+    NSString *sourceString       = [[self typesArray] objectAtIndex:sourceIndexPath.row];
     [mutableTypes removeObjectAtIndex:sourceIndexPath.row];
     [mutableTypes insertObject:sourceString atIndex:destinationIndexPath.row];
-    _typesArray                  = mutableTypes;
+    [self setTypesArray:mutableTypes];
+    
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"com.mapstack.favoritesOrderWasRearranged" object:[self typesArray] userInfo:nil];
+
 }
 
 #pragma mark - setters
-
-/* setters don't have to be public although they don't offer any real advantage when private other than code clarity */
-- (void)setTypesArray:(NSArray *)typesArray{
-    _typesArray = typesArray;
-    
-    /* data source for the types group is ready */
-    [[self tableView] reloadData];
-}
 
 - (void)setLocations:(NSArray *)locations{
     _locations = locations;
@@ -373,49 +353,52 @@ typedef enum NSInteger {
     [_locations enumerateObjectsUsingBlock:^(MSLocation *item, NSUInteger idx, BOOL *stop) {
         [typeStringsArray addObject:[item type]];
     }];
-    
-    /*filter out duplicate strings with a set */
-    NSMutableSet *typesSet = [NSMutableSet setWithArray:typeStringsArray];
-    [self setTypesArray:[typesSet allObjects]];
-    
 }
 
 #pragma mark - selectors
 
+//TODO: Refactor case 4 for a cleaner implementation. notice that this 'todo' shows up if you tap the file helper at the top
+- (MSRange *)getRangeFromIndexPath:(NSIndexPath *)indexPath{
+    
+    MSRange *range = [[MSRange alloc]init];
+    /* safety check */
+    
+    if (indexPath.section == kDistanceFilter){
+        switch (indexPath.row) {
+            case 0:
+                [range setStartPoint:0.0f];
+                [range setEndPoint:300.0f];
+                break;
+            case 1:
+                [range setStartPoint:300.0f];
+                [range setEndPoint:750.0f];
+                break;
+            case 2:
+                [range setStartPoint:750.0f];
+                [range setEndPoint:3000.0f];
+                break;
+            case 3:
+                [range setStartPoint:3000.0f];
+                [range setEndPoint:10000.0f];
+                break;
+                
+            /*larger than the size of the globe. */
+            case 4:
+                [range setStartPoint:0.0f];
+                [range setEndPoint:1000000000000.0f];
+                break;
+                
+            default:
+                [range setStartPoint:0.0f];
+                [range setEndPoint:1000000.0f];
+                break;
+        }
+    }
+    return range;
+}
+
 - (void)didTapEditTypes:(id)sender{
     [[self tableView] setEditing:![[self tableView] isEditing] animated:YES];
 }
-
-- (void)favoriteAdded:(NSNotification *)note{
-    
-    if ([note object]) {
-        NSMutableArray *locations = [[NSMutableArray alloc]initWithArray:_typesArray];
-        MSLocation *location = [note object];
-        [locations addObject:[location type]];
-        
-        /*filter out duplicate strings with a set */
-        NSMutableSet *typesSet = [NSMutableSet setWithArray:locations];
-        [self setTypesArray:[typesSet allObjects]];
-    }
-}
-
-- (void)favoriteRemoved:(NSNotification *)note{
-    
-    if ([note object]) {
-        
-        NSMutableArray *locations = [[NSMutableArray alloc]initWithArray:_typesArray];
-        MSLocation *location = [note object];
-        
-        /* check for existence or you'll crash */
-        if ([locations containsObject:[location type]]) {
-            [locations removeObject:[location type]];
-            
-            /*filter out duplicate strings with a set */
-            NSMutableSet *typesSet = [NSMutableSet setWithArray:locations];
-            [self setTypesArray:[typesSet allObjects]];
-        }
-    }
-}
-
 
 @end

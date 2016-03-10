@@ -32,6 +32,10 @@
     _locationId = locationId;
 }
 
+- (void)setFavoritesOrder:(NSInteger)favoritesOrder{
+    _favoritesOrder = favoritesOrder;
+}
+
 - (void)setLocationImage:(UIImage *)locationImage{
     _locationImage = locationImage;
 }
