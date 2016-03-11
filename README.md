@@ -5,7 +5,6 @@
 [Lesson 8 slides - Speaker Deck](https://speakerdeck.com/leveton/mapstack-lesson-8)
 
 
-
 ## Links
 
 [NSError and the double pointer](http://stackoverflow.com/questions/4765519/why-passing-error-instead-of-error-in-cocoa-programming)
@@ -16,10 +15,9 @@
 
 [Venture Hive Miami](https://www.venturehive.com)
 
+<hr />
 
-
-![](https://raw.githubusercontent.com/Leveton/HelloWorld/master/images/switchBranch.gif)
-
+<img src="https://raw.githubusercontent.com/Leveton/MapStack/lesson0/images/BranchFlow.png" alt="TSNavigationStripView examples" />
 
 
 ## License
