@@ -17,7 +17,6 @@
 
 - (void)setUp {
     [super setUp];
-    // Put setup code here. This method is called before the invocation of each test method in the class.
     _location = [[MSLocation alloc]init];
     [_location setTitle:@"Miami"];
     [_location setType:@"City"];
@@ -28,14 +27,11 @@
     coordinate.latitude  = 0.88f;
     coordinate.longitude = 0.54f;
     [_location setCoordinate:coordinate];
-    
     UIImage *image = [UIImage imageNamed:@"favoriteStar"];
     [_location setLocationImage:image];
-    
 }
 
 - (void)tearDown {
-    // Put teardown code here. This method is called after the invocation of each test method in the class.
     [super tearDown];
     _location = nil;
 }

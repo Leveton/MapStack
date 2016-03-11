@@ -330,8 +330,6 @@ typedef enum NSInteger {
 /* gets called after the rows have been reordered */
 - (void)tableView:(UITableView *)tableView moveRowAtIndexPath:(NSIndexPath *)sourceIndexPath toIndexPath:(NSIndexPath *)destinationIndexPath{
     
-    //[MSSingleton sharedSingleton].areFavoriteTypesOrdered = YES;
-    
     /*update our data source to refect the change */
     NSMutableArray *mutableTypes = [[NSMutableArray alloc]initWithArray:[self typesArray]];
     NSString *sourceString       = [[self typesArray] objectAtIndex:sourceIndexPath.row];

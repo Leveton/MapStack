@@ -10,6 +10,7 @@
 		1C0AD5B31C89323200604BA4 /* MSProgressView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1C0AD5B21C89323200604BA4 /* MSProgressView.m */; };
 		1C47A7681C82657200DA2373 /* MSSingleton.m in Sources */ = {isa = PBXBuildFile; fileRef = 1C47A7671C82657200DA2373 /* MSSingleton.m */; };
 		1C4D3F4B1C8E844B00DBDBDA /* MSRange.m in Sources */ = {isa = PBXBuildFile; fileRef = 1C4D3F4A1C8E844B00DBDBDA /* MSRange.m */; };
+		1CCCBE471C91D07700A9269C /* UIView+MSAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 1CCCBE461C91D07700A9269C /* UIView+MSAdditions.m */; };
 		1CD599661C851DD900414002 /* MSTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 1CD599651C851DD900414002 /* MSTableViewCell.m */; };
 		1CD8573E1C7F826000D16303 /* MSLocationsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1CD8573D1C7F826000D16303 /* MSLocationsViewController.m */; };
 		1CD857411C7F827400D16303 /* MSFavoritesViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1CD857401C7F827400D16303 /* MSFavoritesViewController.m */; };
@@ -44,6 +45,8 @@
 		1C4D3F4A1C8E844B00DBDBDA /* MSRange.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSRange.m; sourceTree = "<group>"; };
 		1C5D0B461C8CE3D10021979B /* PrefixHeader.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PrefixHeader.pch; sourceTree = "<group>"; };
 		1C5D0B471C8CE6900021979B /* MSConstants.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MSConstants.h; sourceTree = "<group>"; };
+		1CCCBE451C91D07700A9269C /* UIView+MSAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+MSAdditions.h"; sourceTree = "<group>"; };
+		1CCCBE461C91D07700A9269C /* UIView+MSAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+MSAdditions.m"; sourceTree = "<group>"; };
 		1CD599641C851DD900414002 /* MSTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSTableViewCell.h; sourceTree = "<group>"; };
 		1CD599651C851DD900414002 /* MSTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSTableViewCell.m; sourceTree = "<group>"; };
 		1CD8573C1C7F826000D16303 /* MSLocationsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSLocationsViewController.h; sourceTree = "<group>"; };
@@ -157,6 +160,8 @@
 				1C47A7661C82657200DA2373 /* MSSingleton.h */,
 				1C47A7671C82657200DA2373 /* MSSingleton.m */,
 				1C5D0B471C8CE6900021979B /* MSConstants.h */,
+				1CCCBE451C91D07700A9269C /* UIView+MSAdditions.h */,
+				1CCCBE461C91D07700A9269C /* UIView+MSAdditions.m */,
 				1C5D0B461C8CE3D10021979B /* PrefixHeader.pch */,
 				1CDCC4601C8160EC00D93B23 /* MapStackLocations.json */,
 				1CEA95E91C7D5D7E0053CD4F /* Assets.xcassets */,
@@ -291,6 +296,7 @@
 				1C0AD5B31C89323200604BA4 /* MSProgressView.m in Sources */,
 				1CEA95E21C7D5D7E0053CD4F /* AppDelegate.m in Sources */,
 				1CDCC45B1C815B1D00D93B23 /* MSLocationDetailViewController.m in Sources */,
+				1CCCBE471C91D07700A9269C /* UIView+MSAdditions.m in Sources */,
 				1CD599661C851DD900414002 /* MSTableViewCell.m in Sources */,
 				1C47A7681C82657200DA2373 /* MSSingleton.m in Sources */,
 				1CEA95DF1C7D5D7E0053CD4F /* main.m in Sources */,

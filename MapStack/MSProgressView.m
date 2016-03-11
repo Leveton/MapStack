@@ -88,24 +88,4 @@
     return _progressView;
 }
 
-#pragma mark - helpers
-
-/* we've used these before - we'll deal with code duplication later */
-- (CGRect)verticallyCenteredFrameForChildFrame:(CGRect)childRect
-{
-    CGRect myBounds = [self bounds];
-    childRect.origin.y = (CGRectGetHeight(myBounds)/2) - (CGRectGetHeight(childRect)/2);
-    return childRect;
-}
-
-- (CGRect)horizontallyCenteredFrameForChildFrame:(CGRect)childRect{
-    CGRect viewBounds = [self bounds];
-    CGFloat listMinX = CGRectGetMidX(viewBounds) - (CGRectGetWidth(childRect)/2);
-    CGRect newChildFrame = CGRectMake(listMinX,
-                                      CGRectGetMinY(childRect),
-                                      CGRectGetWidth(childRect),
-                                      CGRectGetHeight(childRect));
-    return CGRectIntegral(newChildFrame);
-}
-
 @end

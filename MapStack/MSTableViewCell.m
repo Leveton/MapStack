@@ -108,6 +108,11 @@
         [_deleteButton setTitleColor:[UIColor redColor] forState:UIControlStateNormal];
         [_deleteButton setBackgroundColor:[UIColor colorWithRed:244.0/255.0 green:244.0/255.0 blue:244.0/255.0 alpha:1.0f]];
         [[_deleteButton titleLabel] setTextAlignment:NSTextAlignmentCenter];
+        
+        /*set the opacity and the background color to demo Instruments graphics profiling */
+        [[_deleteButton titleLabel] setOpaque:YES];
+        [[_deleteButton titleLabel] setBackgroundColor:[_deleteButton backgroundColor]];
+        
         [_deleteButton setTitle:NSLocalizedString(@"Delete", nil) forState:UIControlStateNormal];
         [_deleteButton addTarget:self action:@selector(didTapDelete:) forControlEvents:UIControlEventTouchUpInside];
         [self addSubview:_deleteButton];
@@ -123,6 +128,11 @@
         [_detailsButton setTitleColor:[UIColor greenColor] forState:UIControlStateNormal];
         [_detailsButton setBackgroundColor:[UIColor colorWithRed:244.0/255.0 green:244.0/255.0 blue:244.0/255.0 alpha:1.0f]];
         [[_detailsButton titleLabel] setTextAlignment:NSTextAlignmentCenter];
+        
+        /*set the opacity and the background color to demo Instruments graphics profiling */
+        [[_detailsButton titleLabel] setOpaque:YES];
+        [[_detailsButton titleLabel] setBackgroundColor:[_detailsButton backgroundColor]];
+        
         [_detailsButton setTitle:NSLocalizedString(@"Details", nil) forState:UIControlStateNormal];
         [_detailsButton addTarget:self action:@selector(didTapDetail:) forControlEvents:UIControlEventTouchUpInside];
         [self addSubview:_detailsButton];
@@ -171,13 +181,6 @@
 }
 
 #pragma mark - selectors
-
-- (CGRect)verticallyCenteredFrameForChildFrame:(CGRect)childRect
-{
-    CGRect myBounds = [self bounds];
-    childRect.origin.y = (CGRectGetHeight(myBounds)/2) - (CGRectGetHeight(childRect)/2);
-    return childRect;
-}
 
 - (void)didTapDelete:(id)sender{
     if ([[self delegate] respondsToSelector:@selector(deleteButtonTappedFromCell:)]){
