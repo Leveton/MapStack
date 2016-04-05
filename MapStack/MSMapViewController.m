@@ -1,20 +1,20 @@
 //
-//  MapViewController.m
+//  MSMapViewController.m
 //  MapStack
 //
 //  Created by Mike Leveton on 2/23/16.
 //  Copyright © 2016 Mike Leveton. All rights reserved.
 //
 
-#import "MapViewController.h"
+#import "MSMapViewController.h"
 
 #define kLocStringHelloWorld         NSLocalizedString(@"Hello World", @"Hello World")
 #define kLabelSide                   (200.0f)
-@interface MapViewController ()
+@interface MSMapViewController ()
 @property (nonatomic, strong, nullable) UILabel *label;
 @end
 
-@implementation MapViewController
+@implementation MSMapViewController
 
 - (void)viewDidLoad {
     [super viewDidLoad];

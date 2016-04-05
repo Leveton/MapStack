@@ -7,10 +7,10 @@
 //
 
 #import "AppDelegate.h"
-#import "MapViewController.h"
+#import "MSMapViewController.h"
 
 @interface AppDelegate ()
-@property (nonatomic, strong, nullable) MapViewController *mapViewController;
+@property (nonatomic, strong, nullable) MSMapViewController *mapViewController;
 @end
 
 @implementation AppDelegate
@@ -49,9 +49,9 @@
 
 #pragma mark - getters
 
-- (UIViewController *)mapViewController{
+- (MSMapViewController *)mapViewController{
     if (!_mapViewController){
-        _mapViewController = [[MapViewController alloc] init];
+        _mapViewController = [[MSMapViewController alloc] init];
         [[_mapViewController view] setBackgroundColor:[UIColor redColor]];
     }
     return _mapViewController;
