@@ -1,18 +1,18 @@
 //
-//  FavoritesViewController.m
+//  MSLocationsViewController.m
 //  MapStack
 //
 //  Created by Mike Leveton on 2/25/16.
 //  Copyright © 2016 Mike Leveton. All rights reserved.
 //
 
-#import "FavoritesViewController.h"
+#import "MSLocationsViewController.h"
 
-@interface FavoritesViewController ()
+@interface MSLocationsViewController ()
 
 @end
 
-@implementation FavoritesViewController
+@implementation MSLocationsViewController
 
 - (void)viewDidLoad {
     [super viewDidLoad];

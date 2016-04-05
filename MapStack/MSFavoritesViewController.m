@@ -1,18 +1,18 @@
 //
-//  SettingsViewController.m
+//  MSFavoritesViewController.m
 //  MapStack
 //
 //  Created by Mike Leveton on 2/25/16.
 //  Copyright © 2016 Mike Leveton. All rights reserved.
 //
 
-#import "SettingsViewController.h"
+#import "MSFavoritesViewController.h"
 
-@interface SettingsViewController ()
+@interface MSFavoritesViewController ()
 
 @end
 
-@implementation SettingsViewController
+@implementation MSFavoritesViewController
 
 - (void)viewDidLoad {
     [super viewDidLoad];

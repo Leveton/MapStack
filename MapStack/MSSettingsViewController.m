@@ -1,18 +1,18 @@
 //
-//  LocationsViewController.m
+//  MSSettingsViewController.m
 //  MapStack
 //
 //  Created by Mike Leveton on 2/25/16.
 //  Copyright © 2016 Mike Leveton. All rights reserved.
 //
 
-#import "LocationsViewController.h"
+#import "MSSettingsViewController.h"
 
-@interface LocationsViewController ()
+@interface MSSettingsViewController ()
 
 @end
 
-@implementation LocationsViewController
+@implementation MSSettingsViewController
 
 - (void)viewDidLoad {
     [super viewDidLoad];
