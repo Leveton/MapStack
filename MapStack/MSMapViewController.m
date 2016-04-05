@@ -1,21 +1,21 @@
 //
-//  MapViewController.m
+//  MSMapViewController.m
 //  MapStack
 //
 //  Created by Mike Leveton on 2/23/16.
 //  Copyright © 2016 Mike Leveton. All rights reserved.
 //
 
-#import "MapViewController.h"
+#import "MSMapViewController.h"
 
 #define kLocStringHelloWorld         NSLocalizedString(@"Hello World", @"Hello World")
 #define kLabelSide                   (200.0f)
 #define kTabbarHeight                (49.0f)
-@interface MapViewController ()
+@interface MSMapViewController ()
 @property (nonatomic, strong, nullable) UILabel *label;
 @end
 
-@implementation MapViewController
+@implementation MSMapViewController
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -23,8 +23,6 @@
     
     /* listen for a notification that the app's theme color changed */
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(themeColorChanged:) name:@"com.mapstack.userDidChangeTheme" object:nil];
-    
-    // Do any additional setup after loading the view.
 }
 
 - (void)viewWillLayoutSubviews{
@@ -49,6 +47,10 @@
     // Dispose of any resources that can be recreated.
 }
 
+- (void)dealloc {
+    [[NSNotificationCenter defaultCenter] removeObserver:@"com.mapstack.userDidChangeTheme"];
+}
+
 #pragma mark - gettters
 
 - (UILabel *)label{
@@ -67,7 +69,6 @@
 
 /* implement the selector or your app will crash if this object receives a userDidChangeTheme notification */
 - (void)themeColorChanged:(NSNotification *)notification{
-    NSLog(@"anObject: %@", [notification object]);
 }
 
 @end

@@ -1,19 +1,19 @@
 //
-//  LocationsViewController.m
+//  MSLocationsViewController.m
 //  MapStack
 //
 //  Created by Mike Leveton on 2/25/16.
 //  Copyright © 2016 Mike Leveton. All rights reserved.
 //
 
-#import "LocationsViewController.h"
+#import "MSLocationsViewController.h"
 
 #define kTableViewPadding    (50.0f)
-@interface LocationsViewController ()<UITableViewDelegate, UITableViewDataSource>
-@property (nonatomic, strong) UITableView *tableView;
+@interface MSLocationsViewController ()<UITableViewDelegate, UITableViewDataSource>
+@property (nonatomic, strong, nullable) UITableView *tableView;
 @end
 
-@implementation LocationsViewController
+@implementation MSLocationsViewController
 
 - (void)viewDidLoad {
     [super viewDidLoad];
