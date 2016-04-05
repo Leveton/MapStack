@@ -1,5 +1,5 @@
 //
-//  FavoritesViewController.h
+//  MSLocationsViewController.h
 //  MapStack
 //
 //  Created by Mike Leveton on 2/25/16.
@@ -8,6 +8,6 @@
 
 #import <UIKit/UIKit.h>
 
-@interface FavoritesViewController : UIViewController
+@interface MSLocationsViewController : UIViewController
 
 @end

@@ -7,17 +7,17 @@
 //
 
 #import "AppDelegate.h"
-#import "MapViewController.h"
-#import "LocationsViewController.h"
-#import "FavoritesViewController.h"
-#import "SettingsViewController.h"
+#import "MSMapViewController.h"
+#import "MSLocationsViewController.h"
+#import "MSFavoritesViewController.h"
+#import "MSSettingsViewController.h"
 
 @interface AppDelegate ()
-@property (nonatomic, strong, nullable) MapViewController       *mapViewController;
-@property (nonatomic, strong, nullable) LocationsViewController *locationsViewController;
-@property (nonatomic, strong, nullable) FavoritesViewController *favoritesViewController;
-@property (nonatomic, strong, nullable) SettingsViewController  *settingsViewController;
-@property (nonatomic, strong, nullable) UIColor                 *themeColor;
+@property (nonatomic, strong, nullable) MSMapViewController       *mapViewController;
+@property (nonatomic, strong, nullable) MSLocationsViewController *locationsViewController;
+@property (nonatomic, strong, nullable) MSFavoritesViewController *favoritesViewController;
+@property (nonatomic, strong, nullable) MSSettingsViewController  *settingsViewController;
+@property (nonatomic, strong, nullable) UIColor                   *themeColor;
 @end
 
 @implementation AppDelegate
@@ -61,9 +61,9 @@
 
 #pragma mark - getters
 
-- (MapViewController *)mapViewController{
+- (MSMapViewController *)mapViewController{
     if (!_mapViewController){
-        _mapViewController = [[MapViewController alloc] init];
+        _mapViewController = [[MSMapViewController alloc] init];
         [[_mapViewController view] setBackgroundColor:[self themeColor]];
         [[_mapViewController tabBarItem] setImage:[UIImage imageNamed:@"home"]];
         [[_mapViewController tabBarItem] setTag:0];
@@ -71,9 +71,9 @@
     return _mapViewController;
 }
 
-- (LocationsViewController *)locationsViewController{
+- (MSLocationsViewController *)locationsViewController{
     if (!_locationsViewController){
-        _locationsViewController = [[LocationsViewController alloc] init];
+        _locationsViewController = [[MSLocationsViewController alloc] init];
         [[_locationsViewController view] setBackgroundColor:[self themeColor]];
         [[_locationsViewController tabBarItem] setImage:[UIImage imageNamed:@"table"]];
         [[_locationsViewController tabBarItem] setTag:1];
@@ -81,9 +81,9 @@
     return _locationsViewController;
 }
 
-- (FavoritesViewController *)favoritesViewController{
+- (MSFavoritesViewController *)favoritesViewController{
     if (!_favoritesViewController){
-        _favoritesViewController = [[FavoritesViewController alloc] init];
+        _favoritesViewController = [[MSFavoritesViewController alloc] init];
         [[_favoritesViewController view] setBackgroundColor:[self themeColor]];
         [[_favoritesViewController tabBarItem] setImage:[UIImage imageNamed:@"favorites"]];
         [[_favoritesViewController tabBarItem] setTag:2];
@@ -91,9 +91,9 @@
     return _favoritesViewController;
 }
 
-- (SettingsViewController *)settingsViewController{
+- (MSSettingsViewController *)settingsViewController{
     if (!_settingsViewController){
-        _settingsViewController = [[SettingsViewController alloc] init];
+        _settingsViewController = [[MSSettingsViewController alloc] init];
         [[_settingsViewController view] setBackgroundColor:[self themeColor]];
         [[_settingsViewController tabBarItem] setImage:[UIImage imageNamed:@"settings"]];
         [[_settingsViewController tabBarItem] setTag:3];

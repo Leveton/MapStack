@@ -1,12 +1,12 @@
 //
-//  MapViewController.m
+//  MSMapViewController.m
 //  MapStack
 //
 //  Created by Mike Leveton on 2/23/16.
 //  Copyright © 2016 Mike Leveton. All rights reserved.
 //
 
-#import "MapViewController.h"
+#import "MSMapViewController.h"
 #import "MSLocation.h"
 
 #import <MapKit/MapKit.h>
@@ -14,14 +14,14 @@
 #define kMapSide                     (300.0f)
 #define kTabbarHeight                (49.0f)
 
-@interface MapViewController ()<CLLocationManagerDelegate, MKMapViewDelegate>
+@interface MSMapViewController ()<CLLocationManagerDelegate, MKMapViewDelegate>
 @property (nonatomic, strong, nonnull) MKMapView            *map;
 @property (nonatomic, strong, nullable) CLLocationManager   *manager;
 @property (nonatomic, assign) CLLocationCoordinate2D        centerPoint;
 @property (nonatomic, strong, nullable) NSMutableArray      *dataSource;
 @end
 
-@implementation MapViewController
+@implementation MSMapViewController
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -32,7 +32,8 @@
     /* get the user's current location */
     [[self manager] startUpdatingLocation];
     
-    MKCoordinateRegion adjustedRegion = [[self map] regionThatFits:MKCoordinateRegionMakeWithDistance([self centerPoint], 1600, 1600)];
+    /* 1 mile radius */
+    MKCoordinateRegion adjustedRegion = [[self map] regionThatFits:MKCoordinateRegionMakeWithDistance([self centerPoint], 1609.34, 1609.34)];
     [[self map] setRegion:adjustedRegion animated:YES];
 
 }
@@ -40,6 +41,10 @@
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+
+- (void)dealloc {
+    [[NSNotificationCenter defaultCenter] removeObserver:@"com.mapstack.userDidChangeTheme"];
 }
 
 #pragma mark - getters

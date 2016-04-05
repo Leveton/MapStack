@@ -7,16 +7,16 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		1CD8573E1C7F826000D16303 /* LocationsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1CD8573D1C7F826000D16303 /* LocationsViewController.m */; };
-		1CD857411C7F827400D16303 /* FavoritesViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1CD857401C7F827400D16303 /* FavoritesViewController.m */; };
-		1CD857441C7F828400D16303 /* SettingsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1CD857431C7F828400D16303 /* SettingsViewController.m */; };
+		1CD8573E1C7F826000D16303 /* MSLocationsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1CD8573D1C7F826000D16303 /* MSLocationsViewController.m */; };
+		1CD857411C7F827400D16303 /* MSFavoritesViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1CD857401C7F827400D16303 /* MSFavoritesViewController.m */; };
+		1CD857441C7F828400D16303 /* MSSettingsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1CD857431C7F828400D16303 /* MSSettingsViewController.m */; };
 		1CDCC4501C80F34E00D93B23 /* MSLocation.m in Sources */ = {isa = PBXBuildFile; fileRef = 1CDCC44F1C80F34E00D93B23 /* MSLocation.m */; };
 		1CEA95DF1C7D5D7E0053CD4F /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 1CEA95DE1C7D5D7E0053CD4F /* main.m */; };
 		1CEA95E21C7D5D7E0053CD4F /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 1CEA95E11C7D5D7E0053CD4F /* AppDelegate.m */; };
 		1CEA95EA1C7D5D7E0053CD4F /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1CEA95E91C7D5D7E0053CD4F /* Assets.xcassets */; };
 		1CEA95ED1C7D5D7E0053CD4F /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1CEA95EB1C7D5D7E0053CD4F /* LaunchScreen.storyboard */; };
 		1CEA95F81C7D5D7E0053CD4F /* MapStackTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 1CEA95F71C7D5D7E0053CD4F /* MapStackTests.m */; };
-		1CEA96041C7D5DA60053CD4F /* MapViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1CEA96031C7D5DA60053CD4F /* MapViewController.m */; };
+		1CEA96041C7D5DA60053CD4F /* MSMapViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1CEA96031C7D5DA60053CD4F /* MSMapViewController.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -30,12 +30,12 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		1CD8573C1C7F826000D16303 /* LocationsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LocationsViewController.h; sourceTree = "<group>"; };
-		1CD8573D1C7F826000D16303 /* LocationsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LocationsViewController.m; sourceTree = "<group>"; };
-		1CD8573F1C7F827400D16303 /* FavoritesViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FavoritesViewController.h; sourceTree = "<group>"; };
-		1CD857401C7F827400D16303 /* FavoritesViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FavoritesViewController.m; sourceTree = "<group>"; };
-		1CD857421C7F828400D16303 /* SettingsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SettingsViewController.h; sourceTree = "<group>"; };
-		1CD857431C7F828400D16303 /* SettingsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SettingsViewController.m; sourceTree = "<group>"; };
+		1CD8573C1C7F826000D16303 /* MSLocationsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSLocationsViewController.h; sourceTree = "<group>"; };
+		1CD8573D1C7F826000D16303 /* MSLocationsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSLocationsViewController.m; sourceTree = "<group>"; };
+		1CD8573F1C7F827400D16303 /* MSFavoritesViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSFavoritesViewController.h; sourceTree = "<group>"; };
+		1CD857401C7F827400D16303 /* MSFavoritesViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSFavoritesViewController.m; sourceTree = "<group>"; };
+		1CD857421C7F828400D16303 /* MSSettingsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSSettingsViewController.h; sourceTree = "<group>"; };
+		1CD857431C7F828400D16303 /* MSSettingsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSSettingsViewController.m; sourceTree = "<group>"; };
 		1CDCC44E1C80F34E00D93B23 /* MSLocation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSLocation.h; sourceTree = "<group>"; };
 		1CDCC44F1C80F34E00D93B23 /* MSLocation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSLocation.m; sourceTree = "<group>"; };
 		1CEA95DA1C7D5D7E0053CD4F /* MapStack.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MapStack.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -48,8 +48,8 @@
 		1CEA95F31C7D5D7E0053CD4F /* MapStackTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MapStackTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		1CEA95F71C7D5D7E0053CD4F /* MapStackTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MapStackTests.m; sourceTree = "<group>"; };
 		1CEA95F91C7D5D7E0053CD4F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		1CEA96021C7D5DA60053CD4F /* MapViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MapViewController.h; sourceTree = "<group>"; };
-		1CEA96031C7D5DA60053CD4F /* MapViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MapViewController.m; sourceTree = "<group>"; };
+		1CEA96021C7D5DA60053CD4F /* MSMapViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSMapViewController.h; sourceTree = "<group>"; };
+		1CEA96031C7D5DA60053CD4F /* MSMapViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSMapViewController.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -93,14 +93,14 @@
 			children = (
 				1CEA95E01C7D5D7E0053CD4F /* AppDelegate.h */,
 				1CEA95E11C7D5D7E0053CD4F /* AppDelegate.m */,
-				1CEA96021C7D5DA60053CD4F /* MapViewController.h */,
-				1CEA96031C7D5DA60053CD4F /* MapViewController.m */,
-				1CD8573C1C7F826000D16303 /* LocationsViewController.h */,
-				1CD8573D1C7F826000D16303 /* LocationsViewController.m */,
-				1CD8573F1C7F827400D16303 /* FavoritesViewController.h */,
-				1CD857401C7F827400D16303 /* FavoritesViewController.m */,
-				1CD857421C7F828400D16303 /* SettingsViewController.h */,
-				1CD857431C7F828400D16303 /* SettingsViewController.m */,
+				1CEA96021C7D5DA60053CD4F /* MSMapViewController.h */,
+				1CEA96031C7D5DA60053CD4F /* MSMapViewController.m */,
+				1CD8573C1C7F826000D16303 /* MSLocationsViewController.h */,
+				1CD8573D1C7F826000D16303 /* MSLocationsViewController.m */,
+				1CD8573F1C7F827400D16303 /* MSFavoritesViewController.h */,
+				1CD857401C7F827400D16303 /* MSFavoritesViewController.m */,
+				1CD857421C7F828400D16303 /* MSSettingsViewController.h */,
+				1CD857431C7F828400D16303 /* MSSettingsViewController.m */,
 				1CDCC44E1C80F34E00D93B23 /* MSLocation.h */,
 				1CDCC44F1C80F34E00D93B23 /* MSLocation.m */,
 				1CEA95E91C7D5D7E0053CD4F /* Assets.xcassets */,
@@ -227,13 +227,13 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				1CEA96041C7D5DA60053CD4F /* MapViewController.m in Sources */,
+				1CEA96041C7D5DA60053CD4F /* MSMapViewController.m in Sources */,
 				1CDCC4501C80F34E00D93B23 /* MSLocation.m in Sources */,
-				1CD857441C7F828400D16303 /* SettingsViewController.m in Sources */,
+				1CD857441C7F828400D16303 /* MSSettingsViewController.m in Sources */,
 				1CEA95E21C7D5D7E0053CD4F /* AppDelegate.m in Sources */,
 				1CEA95DF1C7D5D7E0053CD4F /* main.m in Sources */,
-				1CD857411C7F827400D16303 /* FavoritesViewController.m in Sources */,
-				1CD8573E1C7F826000D16303 /* LocationsViewController.m in Sources */,
+				1CD857411C7F827400D16303 /* MSFavoritesViewController.m in Sources */,
+				1CD8573E1C7F826000D16303 /* MSLocationsViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
