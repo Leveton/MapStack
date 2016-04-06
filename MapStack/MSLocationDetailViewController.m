@@ -9,7 +9,7 @@
 #import "MSLocationDetailViewController.h"
 
 @interface MSLocationDetailViewController ()
-@property (nonatomic, strong) UILabel *label;
+@property (nonatomic, strong, nullable) UILabel *label;
 @end
 
 @implementation MSLocationDetailViewController

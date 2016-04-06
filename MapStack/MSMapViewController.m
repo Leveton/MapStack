@@ -33,7 +33,8 @@
     /* get the user's current location */
     [[self manager] startUpdatingLocation];
     
-    MKCoordinateRegion adjustedRegion = [[self map] regionThatFits:MKCoordinateRegionMakeWithDistance([self centerPoint], 1600, 1600)];
+    /* 1 mile radius */
+    MKCoordinateRegion adjustedRegion = [[self map] regionThatFits:MKCoordinateRegionMakeWithDistance([self centerPoint], 1609.34, 1609.34)];
     [[self map] setRegion:adjustedRegion animated:YES];
     
 }
@@ -47,6 +48,10 @@
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+
+- (void)dealloc {
+    [[NSNotificationCenter defaultCenter] removeObserver:@"com.mapstack.userDidChangeTheme"];
 }
 
 #pragma mark - getters
