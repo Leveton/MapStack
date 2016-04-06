@@ -15,12 +15,12 @@
 #define kAnimationHeight      (20.0f)
 
 @interface MSLocationDetailViewController ()
-@property (nonatomic, strong) UILabel                *label;
-@property (nonatomic, strong) UILabel                *distanceLabel;
-@property (nonatomic, strong) UIButton               *dismissButton;
-@property (nonatomic, strong) UIImageView            *imageView;
-@property (nonatomic, strong) UITapGestureRecognizer *tap;
-@property (nonatomic, strong) UIPanGestureRecognizer *pan;
+@property (nonatomic, strong, nullable) UILabel                *label;
+@property (nonatomic, strong, nullable) UILabel                *distanceLabel;
+@property (nonatomic, strong, nullable) UIButton               *dismissButton;
+@property (nonatomic, strong, nullable) UIImageView            *imageView;
+@property (nonatomic, strong, nullable) UITapGestureRecognizer *tap;
+@property (nonatomic, strong, nullable) UIPanGestureRecognizer *pan;
 @end
 
 @implementation MSLocationDetailViewController

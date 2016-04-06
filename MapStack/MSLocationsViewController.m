@@ -12,7 +12,7 @@
 
 #define kTableViewPadding    (20.0f)
 @interface MSLocationsViewController ()<UITableViewDelegate, UITableViewDataSource>
-@property (nonatomic, strong) UITableView *tableView;
+@property (nonatomic, strong, nullable) UITableView *tableView;
 @end
 
 @implementation MSLocationsViewController
@@ -101,7 +101,9 @@
     }
     
     [[cell textLabel] setText:[location title]];
-    [[cell detailTextLabel] setText:[NSString stringWithFormat:@"distance: %f", location.distance]];
+    
+    /* format the float as an int so that users don't see six decimal places */
+    [[cell detailTextLabel] setText:[NSString stringWithFormat:@"distance: %ld meters", (long)location.distance]];
     
     return cell;
 }
