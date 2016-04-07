@@ -14,7 +14,7 @@
 
 #define kTableViewPadding    (20.0f)
 @interface MSFavoritesViewController ()<UITableViewDataSource, UITableViewDelegate, MSTableViewCellDelegate>
-@property (nonatomic, strong) UITableView *tableView;
+@property (nonatomic, strong, nullable) UITableView *tableView;
 @end
 
 @implementation MSFavoritesViewController
