@@ -11,8 +11,8 @@
 
 #define kTableViewPadding    (20.0f)
 @interface MSLocationsViewController ()<UITableViewDelegate, UITableViewDataSource>
-@property (nonatomic, strong) UITableView *tableView;
-@property (nonatomic, strong) NSArray     *copiedDataSource;
+@property (nonatomic, strong, nullable) UITableView *tableView;
+@property (nonatomic, strong, nonnull) NSArray     *copiedDataSource;
 @end
 
 @implementation MSLocationsViewController

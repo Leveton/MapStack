@@ -62,6 +62,10 @@
     // Dispose of any resources that can be recreated.
 }
 
+- (void)dealloc{
+    [[NSNotificationCenter defaultCenter] removeObserver:@"com.mapstack.themeColorWasChanged"];
+}
+
 #pragma mark - getters
 
 - (MKMapView *)map{

@@ -9,12 +9,12 @@
 #import "MSTableViewCell.h"
 
 @interface MSTableViewCell()
-@property (nonatomic, strong) UILabel     *mainLabel;
-@property (nonatomic, strong) UILabel     *subLabel;
-@property (nonatomic, strong) UIButton    *deleteButton;
-@property (nonatomic, strong) UIButton    *detailsButton;
-@property (nonatomic, strong) UIImageView *locationImageView;
-@property (nonatomic, strong) UIView      *dividerLine;
+@property (nonatomic, strong, nullable) UILabel     *mainLabel;
+@property (nonatomic, strong, nullable) UILabel     *subLabel;
+@property (nonatomic, strong, nullable) UIButton    *deleteButton;
+@property (nonatomic, strong, nullable) UIButton    *detailsButton;
+@property (nonatomic, strong, nullable) UIImageView *locationImageView;
+@property (nonatomic, strong, nullable) UIView      *dividerLine;
 @end
 
 @implementation MSTableViewCell

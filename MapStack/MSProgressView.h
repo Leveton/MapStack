@@ -11,5 +11,5 @@
 @interface MSProgressView : UIView
 
 /* we'll make it public so that owning classes can unhide and trigger it */
-@property (nonatomic, strong) UIActivityIndicatorView *progressView;
+@property (nonatomic, strong, nullable) UIActivityIndicatorView *progressView;
 @end
