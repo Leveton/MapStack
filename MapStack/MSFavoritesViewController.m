@@ -150,7 +150,7 @@
 
 - (void)detailsButtonTappedFromCell:(MSTableViewCell *)cell{
     
-    /* Same code as 'didSelectRowAtIndexPath' from the last lasson */
+    /* Same code as 'didSelectRowAtIndexPath' from the last lesson */
     MSLocation *location = [_dataSource objectAtIndex:cell.tag];
     
     MSLocationDetailViewController *vc = [[MSLocationDetailViewController alloc]init];

@@ -124,7 +124,7 @@ typedef enum NSInteger {
 
 - (UITableViewCell *)distanceCellForIndexPath:(NSIndexPath *)indexPath{
     
-    /*convenience method on UIView for alloc and init */
+    /* convenience method on UIView for alloc and init */
     UITableViewCell *cell = [UITableViewCell new];
     
     UIImageView *imageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"check"]];
@@ -148,7 +148,7 @@ typedef enum NSInteger {
         
         UITableViewCell *cell = [[self tableView] cellForRowAtIndexPath:indexPath];
         
-        /*toggle the cell's right-hand view hidden */
+        /* toggle the cell's right-hand view hidden */
         [[cell accessoryView] setHidden:![[cell accessoryView] isHidden]];
     }
 }
