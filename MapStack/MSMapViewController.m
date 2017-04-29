@@ -163,7 +163,7 @@
     
     /* NSURLSessionDataTask returns data directly to the app in a block. This time, the block is exectuted when the response comes from the server */
     
-    NSURLSessionDataTask *locationTask = [[self sessionLocations] dataTaskWithRequest:[self locationsRequest] completionHandler:^(NSData *data, NSURLResponse *response, NSError *error){
+    __block NSURLSessionDataTask *locationTask = [[self sessionLocations] dataTaskWithRequest:[self locationsRequest] completionHandler:^(NSData *data, NSURLResponse *response, NSError *error){
         
         
         if (!error){

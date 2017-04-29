@@ -175,14 +175,6 @@ typedef enum NSInteger {
     return UITableViewCellEditingStyleNone;
 }
 
-- (void)hideAllChecksForIndexPath:(NSIndexPath *)indexPath{
-    
-    for (NSInteger i = 0; i < [self.tableView numberOfRowsInSection:indexPath.section]; i++) {
-        UITableViewCell *cell = [[self tableView] cellForRowAtIndexPath:[NSIndexPath indexPathForRow:i inSection:indexPath.section]];
-        [[cell accessoryView] setHidden:YES];
-    }
-}
-
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     
     /* this flashes the cell upon tap which is good for UX */
@@ -354,6 +346,14 @@ typedef enum NSInteger {
 }
 
 #pragma mark - selectors
+
+- (void)hideAllChecksForIndexPath:(NSIndexPath *)indexPath{
+    
+    for (NSInteger i = 0; i < [self.tableView numberOfRowsInSection:indexPath.section]; i++) {
+        UITableViewCell *cell = [[self tableView] cellForRowAtIndexPath:[NSIndexPath indexPathForRow:i inSection:indexPath.section]];
+        [[cell accessoryView] setHidden:YES];
+    }
+}
 
 //TODO: Refactor case 4 for a cleaner implementation. notice that this 'todo' shows up if you tap the file helper at the top
 - (MSRange *)getRangeFromIndexPath:(NSIndexPath *)indexPath{

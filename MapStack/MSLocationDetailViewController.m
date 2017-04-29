@@ -282,7 +282,7 @@
     /* one of several mutable array convenience initializers */
     NSMutableArray *mutableFavs = [NSMutableArray arrayWithArray:favs];
     
-    AppDelegate *delegate = [[UIApplication sharedApplication] delegate];
+    AppDelegate *delegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
     if (_isLocationFavorited){
         [mutableFavs removeObject:locationId];
         [delegate removeLocationFromFavoritesWithLocation:_location];
